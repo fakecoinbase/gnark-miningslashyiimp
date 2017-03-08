@@ -246,14 +246,14 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 		return;
 	}
 	
-	if(strcmp(coind->symbol, "ARC") == 0) // Dash 12.1
+	else if(strcmp(coind->symbol, "ARC") == 0)
 	{
 		char script_dests[2048] = { 0 };
 		char script_payee[128] = { 0 };
-		char payees[4]; // addresses count
+		char payees[4];
 		int npayees = 1;
-		bool masternode_enabled = json_get_bool(json_result, "goldminenode_payments_started");
-		bool superblocks_enabled = json_get_bool(json_result, "superblocks_started");
+		bool masternode_enabled = json_get_bool(json_result, "goldminenode_payments_enforced");
+		bool superblocks_enabled = json_get_bool(json_result, "superblocks_enabled");
 		json_value* superblock = json_get_array(json_result, "superblock");
 		json_value* masternode = json_get_object(json_result, "goldminenode");
 		if(superblocks_enabled && superblock) {
