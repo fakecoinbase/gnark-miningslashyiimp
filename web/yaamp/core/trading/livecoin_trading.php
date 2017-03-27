@@ -100,6 +100,7 @@ function doLiveCoinTrading($quick = false)
 	if ($quick) {
 		$flushall = false;
 	}
+        $min_btc_trade = exchange_get($exchange, 'trade_min_btc', 0.0001);
 
 	// upgrade orders
 	$coins = getdbolist('db_coins', "enable=1 AND IFNULL(dontsell,0)=0 AND id IN (SELECT DISTINCT coinid FROM markets WHERE name='livecoin')");
