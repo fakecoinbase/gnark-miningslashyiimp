@@ -33,8 +33,10 @@ $payout_freq = (YAAMP_PAYMENTS_FREQ / 3600)." hours";
 
 <ul>
 
-<li>YiiMP is a pool management solution based on the Yii Framework.</li>
-<li>This fork was based on the yaamp source code and is now an open source project.</li>
+<li>Welcome to your new mining pool, domain Mining Pool! </li>
+<li>This installation was completed using the Ultimate Crypto-Server Setup Installer.</li>
+<li>Any edits to this page should be made to, /home/crypto-data/yiimp/site/web/yaamp/modules/site/index.php</li>
+<li>&nbsp;</li>
 <li>No registration is required, we do payouts in the currency you mine. Use your wallet address as the username.</li>
 <li>&nbsp;</li>
 <li>Payouts are made automatically every <?= $payout_freq ?> for all balances above <b><?= $min_payout ?></b>, or <b><?= $min_sunday ?></b> on Sunday.</li>
@@ -100,10 +102,7 @@ $payout_freq = (YAAMP_PAYMENTS_FREQ / 3600)." hours";
 </div></div><br>
 
 <!--  -->
-
-<a class="twitter-timeline" href="https://twitter.com/hashtag/YAAMP" data-widget-id="617405893039292417" data-chrome="transparent" height="450px" data-tweet-limit="3" data-aria-polite="polite">Tweets about #YAAMP</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
+<a class="twitter-timeline" href="https://twitter.com/cryptopoollife?ref_src=twsrc%5Etfw"</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </td><td valign=top>
 
 <!--  -->
