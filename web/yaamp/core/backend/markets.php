@@ -300,14 +300,19 @@ function updateBitfinexMarkets()
  	$list = getdbolist('db_markets', "name LIKE '$exchange%'");
 	if (empty($list)) return;
 
+	$count=0;
  	foreach($list as $market)
 	{
 		$coin = getdbo('db_coins', $market->coinid);
 		if(!$coin) continue;
+		if (!($coin->installed || $coin->watch)) continue;
  		$symbol = $coin->getOfficialSymbol();
 		$pair = strtolower($symbol).'btc';
 
 		$ticker = bitfinex_api_query('pubticker', $pair);
+
+                $count++;
+                if ($count > 10) {sleep(10);$count=0;} // Rate limiting https://docs.bitfinex.com/docs/rest-general
 
  		$sqlFilter = '';
 		if (!empty($market->base_coin)) {
@@ -338,7 +343,6 @@ function updateBitfinexMarkets()
 			$coin->save();
 		}
 		//debuglog("$exchange: $pair price updated to {$market->price}");
-		// Limit to 10 API call so 10 tickets ? https://docs.bitfinex.com/docs/rest-general
 	}
 }
 
