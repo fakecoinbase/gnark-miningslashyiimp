@@ -311,8 +311,8 @@ function updateBitfinexMarkets()
 
 		$ticker = bitfinex_api_query('pubticker', $pair);
 
-                $count++;
-                if ($count > 10) {sleep(10);$count=0;} // Rate limiting https://docs.bitfinex.com/docs/rest-general
+		$count++;
+		if ($count > 10) {sleep(10);$count=0;} // Rate limiting https://docs.bitfinex.com/docs/rest-general
 
  		$sqlFilter = '';
 		if (!empty($market->base_coin)) {
