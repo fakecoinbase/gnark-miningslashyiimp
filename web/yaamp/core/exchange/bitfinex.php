@@ -3,6 +3,7 @@
 // https://docs.bitfinex.com/docs/rest-general
 // https://docs.bitfinex.com/v1/reference#rest-public-ticker
 // https://api.bitfinex.com/v1/symbols
+// not used yet : https://api.bitfinex.com/v1/symbols_details
 // https://api.bitfinex.com/v1/pubticker/btcusd
 
 function bitfinex_api_query($method, $params='', $returnType='object')
