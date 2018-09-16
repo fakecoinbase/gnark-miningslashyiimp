@@ -1515,7 +1515,7 @@ function updateKuCoinMarkets()
 			if (objSafeVal($ticker,'buy',-1) == -1) continue;
 
 			$market->price = AverageIncrement($market->price, $ticker->buy);
-			$market->price2 = AverageIncrement($market->price2, $ticker->sell);
+			$market->price2 = AverageIncrement($market->price2, objSafeVal($ticker,'sell',$ticker->buy));
 			if (!empty($coininfo)) foreach ($coininfo->data as $info) {
 				if ($info->coin == $symbol) {
 					//todo: $market->withdrawfee = $info->withdrawMinFee;
