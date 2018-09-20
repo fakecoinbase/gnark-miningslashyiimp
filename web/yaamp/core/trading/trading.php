@@ -2,6 +2,7 @@
 require_once('poloniex_trading.php');
 require_once('binance_trading.php');
 require_once('bittrex_trading.php');
+require_once('bitzv2_trading.php');
 require_once('bleutrade_trading.php');
 require_once('bter_trading.php');
 require_once('c-cex_trading.php');
@@ -33,6 +34,9 @@ function cancelExchangeOrder($order=false)
 				break;
 			case 'bittrex':
 				doBittrexCancelOrder($order->uuid);
+				break;
+			case 'bitz':
+				doBitzCancelOrder($order->uuid);
 				break;
 			case 'bleutrade':
 				doBleutradeCancelOrder($order->uuid);
@@ -99,7 +103,9 @@ function runExchange($exchangeName=false)
 				doBittrexTrading(true);
 				updateBittrexMarkets();
 				break;
+
 			case 'bitz':
+				doBitzTrading(true);
 				updateBitzMarkets();
 				break;
 
