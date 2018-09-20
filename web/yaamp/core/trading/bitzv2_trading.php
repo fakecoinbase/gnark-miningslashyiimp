@@ -20,7 +20,7 @@
 	{
 		if ($balance->name == 'btc') {
 			if (is_object($savebalance)) {
-				$savebalance->balance = $balance->over; // over or num ?
+				$savebalance->balance = $balance->over;
 				$savebalance->onsell = $balance->lock;
 				$savebalance->save();
 			}
@@ -35,7 +35,7 @@
 			foreach ($coins as $coin) {
 				$market = getdbosql('db_markets', "coinid=:coinid AND name='$exchange'", array(':coinid'=>$coin->id));
 				if (!$market) continue;
-				$market->balance = $balance->over; // over or num ?
+				$market->balance = $balance->over;
 				$market->ontrade = $balance->lock;
 				$market->balancetime = time();
 				$market->save();
