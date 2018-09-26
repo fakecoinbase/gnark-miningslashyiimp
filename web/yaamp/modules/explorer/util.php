@@ -172,8 +172,8 @@ function versionToAlgo($coin, $version)
 		0=>'x12', 1=>'x11', 2=>'x13', 3=>'sha256', 4=>'blake2s'
 	);
 	$algos['GLT'] = array(
-		0=>'SHA256D', 1=>'SCRYPT', 2=>'X11', 3=>'NEOSCRYPT', 4=>'EQUIHASH', 5=>'YESCRYPT', 6=>'HMQ1725', 7=>'XEVAN', 8=>'NIST5', 9=>'BITCORE', 10=>'PAWELHASH', 11=>'X13', 12=>'X14', 13=>'X15', 14=>'X17', 15=>'LYRA2RE', 16=>'BLAKE2S', 17=>'BLAKE2B', 18=>'ASTRALHASH', 19=>'PADIHASH', 20=>'JEONGHASH', 21=>'KECCAK', 22=>'ZHASH', 23=>'GLOBALHASH', 24=>'SKEIN', 25=>'GROESTL', 26=>'QUBIT', 27=>'SKUNKHASH', 28=>'QUARK', 29=>'X16R'
-        );
+		0=>'sha256d', 1=>'scrypt', 2=>'x11', 3=>'neoscrypt', 4=>'equihash', 5=>'yescrypt', 6=>'hmq1725', 7=>'xevan', 8=>'nist5', 9=>'bitcore', 10=>'pawelhash', 11=>'x13', 12=>'x14', 13=>'x15', 14=>'x17', 15=>'lyra2v2', 16=>'blake2s', 17=>'blake2b', 18=>'astralhash', 19=>'padihash', 20=>'jeonghash', 21=>'keccak', 22=>'zhash', 23=>'globalhash', 24=>'skein', 25=>'myr-gr', 26=>'qubit', 27=>'skunk', 28=>'quark', 29=>'x16r'
+	);
 	$algos['RICHX'] = array(
 		0=>'sha256', 1=>'scrypt', 2=>'myr-gr', 3=>'skein', 4=>'qubit'
 	);
