@@ -299,7 +299,10 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 
 		base58_decode(charity_payee, script_payee);
 
-		json_int_t charity_amount = (available * coind->charity_percent) / 100;
+		json_int_t charity_amount = json_get_int(json_result, "payee_amount");
+		if (charity_amount <= 0)
+			charity_amount = (available * coind->charity_percent) / 100;
+
 		available -= charity_amount;
 		coind->charity_amount = charity_amount;
 
@@ -314,6 +317,8 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 		strcat(templ->coinb2, "00000000"); // locktime
 
 		coind->reward = (double)available/100000000*coind->reward_mul;
+		//debuglog("INFO %s block available %f, charity %f miner %f\n", coind->symbol,
+		//	(double) available/1e8, (double) charity_amount/1e8, coind->reward);
 		return;
 	}
 

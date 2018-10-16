@@ -20,6 +20,7 @@ function BackendPricesUpdate()
 	updateKrakenMarkets();
 	updateKuCoinMarkets();
 	updateCCexMarkets();
+	updateCoinbeneMarkets();
 	updateCrex24Markets();
 	updateCryptopiaMarkets();
 	updateHitBTCMarkets();
@@ -27,7 +28,6 @@ function BackendPricesUpdate()
 	updateAlcurexMarkets();
 	updateBinanceMarkets();
 	updateBterMarkets();
-	updateCryptohubMarkets();
 	//updateEmpoexMarkets();
 	updateJubiMarkets();
 	updateLiveCoinMarkets();
@@ -983,6 +983,46 @@ function updateAlcurexMarkets()
 	}
 }
 
+function updateCoinbeneMarkets()
+{
+	$exchange = 'coinbene';
+	if (exchange_get($exchange, 'disabled')) return;
+
+	$list = getdbolist('db_markets', "name LIKE '$exchange%'");
+	if (empty($list)) return;
+
+	$data = coinbene_api_query('market/ticker', 'symbol=all');
+	$data = objSafeVal($data,'ticker');
+	if(!is_array($data)) return;
+
+	foreach($list as $market) {
+		$coin = getdbo('db_coins', $market->coinid);
+		if(!$coin) continue;
+		if(!$coin->installed && !$coin->watch) continue;
+
+		$symbol = $coin->getOfficialSymbol();
+		if (market_get($exchange, $symbol, "disabled")) {
+			$market->disabled = 1;
+			$market->message = 'disabled from settings';
+			$market->save();
+			continue;
+		}
+
+		$pair = $symbol.'BTC';
+		foreach($data as $ticker) {
+			if ($ticker->symbol != $pair) continue;
+
+			$price2 = ($ticker->bid+$ticker->ask)/2;
+			$market->price2 = AverageIncrement($market->price2, $price2);
+			$market->price = AverageIncrement($market->price, $ticker->bid);
+			$market->pricetime = time();
+			$market->save();
+
+			break;
+		}
+	}
+}
+
 function updateCrex24Markets()
 {
 	$exchange = 'crex24';
@@ -1383,50 +1423,6 @@ function updateBterMarkets()
 			if (empty($coin->price2)) {
 				$coin->price = $market->price;
 				$coin->price2 = $market->price2;
-				$coin->save();
-			}
-		}
-	}
-}
-
-function updateCryptohubMarkets()
-{
-	$exchange = 'cryptohub';
-	if (exchange_get($exchange, 'disabled')) return;
-
-	$list = getdbolist('db_markets', "name LIKE '$exchange%'");
-	if (empty($list)) return;
-
-	$markets = cryptohub_api_query('market/ticker');
-	if(!is_array($markets)) return;
-
-	foreach($list as $market)
-	{
-		$coin = getdbo('db_coins', $market->coinid);
-		if(!$coin) continue;
-
-		$symbol = $coin->getOfficialSymbol();
-		if (market_get($exchange, $symbol, "disabled")) {
-			$market->disabled = 1;
-			$market->message = 'disabled from settings';
-			$market->save();
-			continue;
-		}
-
-		$dbpair = 'BTC'.'_'.$symbol;
-		foreach ($markets as $pair => $ticker) {
-			if ($pair != $dbpair) continue;
-			$price2 = ($ticker['highestBid']+$ticker['lowestAsk'])/2;
-			$market->price = AverageIncrement($market->price, $ticker['highestBid']);
-			$market->price2 = AverageIncrement($market->price2, $price2);
-			$market->pricetime = time();
-			//if ($market->disabled < 9) $market->disabled = (floatval($ticker['baseVolume']) < 0.01);
-			$market->save();
-
-			if (empty($coin->price2)) {
-				$coin->price = $market->price;
-				$coin->price2 = $market->price2;
-				$coin->market = $exchange;
 				$coin->save();
 			}
 		}

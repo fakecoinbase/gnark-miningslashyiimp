@@ -1,5 +1,7 @@
 *.o
 *.a
+.deps
+.dirstamp
 stratum/stratum
 stratum/blocknotify
 blocknotify/blocknotify
