@@ -1,7 +1,17 @@
-#include <memory.h>
-#include "algo-gate-api.h"
-#include "lyra2.h"
-#include "avxdefs.h"
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
+#include <stdio.h>
+
+#include <sha3/sph_skein.h>
+#include <sha3/sph_jh.h>
+#include <sha3/sph_cubehash.h>
+#include <sha3/sph_fugue.h>
+#include <sha3/sph_echo.h>
+#include "gost.h"
+
+#include "common.h"
+#include "lyra2z330.h"
 
 __thread uint64_t* lyra2z330_wholeMatrix;
 
