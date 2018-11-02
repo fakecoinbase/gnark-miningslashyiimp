@@ -417,6 +417,16 @@ function updateRawcoins()
 		}
 	}
 
+	if (!exchange_get('zebitex', 'disabled')) {
+		$list = zebitex_api_query('orders/tickers');
+		if(!empty($list)) {
+			dborun("UPDATE markets SET deleted=true WHERE name='zebitex'");
+			foreach ($list as $currency) {
+				$symbol = objSafeVal($currency, 'base_unit');
+				updateRawCoin('zebitex', $symbol);
+			}
+		}
+	}
 	//////////////////////////////////////////////////////////
 
 	$markets = dbocolumn("SELECT DISTINCT name FROM markets");
