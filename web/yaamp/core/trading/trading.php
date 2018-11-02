@@ -15,6 +15,7 @@ require_once('hitbtc_trading.php');
 require_once('kucoin_trading.php');
 require_once('livecoin_trading.php');
 require_once('nova_trading.php');
+require_once('zebitex_trading.php');
 
 
 function cancelExchangeOrder($order=false)
@@ -52,6 +53,10 @@ function cancelExchangeOrder($order=false)
 			case 'livecoin':
 				doLiveCoinCancelOrder($order->uuid);
 				break;
+			case 'zebitex':
+				doZebitexCancelOrder($order->uuid);
+				break;
+
 
 		}
 }
@@ -164,6 +169,11 @@ function runExchange($exchangeName=false)
 			case 'poloniex':
 				doPoloniexTrading(true);
 				updatePoloniexMarkets();
+				break;
+			
+			case 'zebitex':
+				doZebitexTrading(true);
+				updateZebitexMarkets();
 				break;
 
 			default:
