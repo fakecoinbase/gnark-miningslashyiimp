@@ -418,12 +418,13 @@ function updateRawcoins()
 	}
 
 	if (!exchange_get('zebitex', 'disabled')) {
-		$list = zebitex_api_query('orders/tickers');
-		if(!empty($list)) {
+		$data = zebitex_api_user('funds'); // private API contains coin labels
+		if(!empty($data)) {
 			dborun("UPDATE markets SET deleted=true WHERE name='zebitex'");
-			foreach ($list as $currency) {
-				$symbol = objSafeVal($currency, 'base_unit');
-				updateRawCoin('zebitex', $symbol);
+			foreach ($data as $currency) {
+				$symbol = objSafeVal($currency, 'code');
+				$name = objSafeVal($currency, 'title');
+				updateRawCoin('zebitex', $symbol, $name);
 			}
 		}
 	}
