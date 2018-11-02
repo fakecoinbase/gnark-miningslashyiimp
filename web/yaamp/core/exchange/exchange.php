@@ -44,6 +44,7 @@ require_once("coinsmarkets.php");
 require_once("cryptowatch.php");
 require_once("stocksexchange.php");
 require_once("tradesatoshi.php");
+require_once("zebitex.php");
 
 /* Format an exchange coin Url */
 function getMarketUrl($coin, $marketName)
@@ -135,6 +136,9 @@ function getMarketUrl($coin, $marketName)
 		$url = "https://tradesatoshi.com/Exchange?market={$symbol}_{$base}";
 	else if($market == 'yobit')
 		$url = "https://yobit.net/en/trade/{$symbol}/{$base}";
+	else if($market == 'zebitex')
+		$url = "https://staging.zebitex.com/{$symbol}{$base}";
+//		$url = "https://zebitex.com/{$symbol}-{$base}";
 	else
 		$url = "";
 
