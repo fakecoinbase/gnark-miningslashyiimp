@@ -231,7 +231,7 @@ class ExchangeCommand extends CConsoleCommand
 		}
 		if (!empty(EXCH_ZEBITEX_KEY)) {
 			$balance = zebitex_api_user('funds');
-			if (empty($balance)) echo "zebitex error ".json_encode($balance)."\n";
+			if (!isset($balance->BTC)) echo "zebitex error ".json_encode($balance)."\n";
 			else echo("zebitex: BTC balance: ".json_encode($balance->BTC)."\n");
 		}
 		// only one secret key
