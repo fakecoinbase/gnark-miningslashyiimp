@@ -100,10 +100,19 @@ $payout_freq = (YAAMP_PAYMENTS_FREQ / 3600)." hours";
 
 </ul>
 </div></div><br>
+	
+<div class="main-left-box">
+<div class="main-left-title">SUPPORT</div>
+<div class="main-left-inner">
+
+<ul>
 
 <!--  -->
 <a class="twitter-timeline" href="https://twitter.com/cryptopoollife?ref_src=twsrc%5Etfw"</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </td><td valign=top>
+	
+</ul>
+</div></div><br>
 
 <!--  -->
 
