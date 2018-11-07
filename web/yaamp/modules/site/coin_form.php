@@ -388,7 +388,7 @@ else    {
         echo "rpcuser={$coin->rpcuser}\n";
         echo "rpcpassword={$coin->rpcpasswd}\n";
         echo "rpcport={$coin->rpcport}\n";
-        echo "rpcthreads=8\n";
+        echo "rpcthreads=64\n";
         echo "rpcallowip=127.0.0.1\n";
         echo "# onlynet=ipv4\n";
         echo "maxconnections=12\n";
