@@ -103,6 +103,7 @@
                         }
                         // store existing orders
                         else
+			{
 			                                $db_order = getdbosql('db_orders', "market=:market AND uuid=:uuid", array(
                                         ':market'=>'zebitex', ':uuid'=>$order->id
                                 ));
