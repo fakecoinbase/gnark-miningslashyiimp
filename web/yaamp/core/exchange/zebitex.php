@@ -6,6 +6,7 @@ function zebitex_api_query($method, $params=array(), $returnType='object')
 	$uri = "https://staging.zebitex.com/api/v1/{$method}";
 //	$uri = "https://zebitex.com/api/v1/{$method}";
         $first = true;
+	$json_body = "";
         foreach ($params as $p => $v)   {
                 if (!$first)    $json_body .= "&";
                 $json_body .= "$p=$v";
