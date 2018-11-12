@@ -161,7 +161,7 @@
                         if($sellamount*$sellprice < $min_btc_trade) continue;
                         debuglog("zebitex: selling $sellamount $symbol at $sellprice");
                         sleep(1);
-			$params = array('bid' => strtolower($symbol), 'ask' => 'btc', 'side' => 'ask', 'price' => $sellprice,
+			$params = array('bid' => 'btc', 'ask' => strtolower($symbol), 'side' => 'ask', 'price' => $sellprice,
                                 'amount'=>$sellamount, 'market' => strtolower($symbol).'btc', 'ord_type' => 'limit');
                         $res = zebitex_api_user('orders', $params);
                         if(!$res || isset($res->error)) {
@@ -182,7 +182,7 @@
                 if($amount*$sellprice < $min_btc_trade) continue;
                 debuglog("zebitex: selling $amount $symbol at $sellprice");
                 sleep(1);
-                $params = array('bid' => strtolower($symbol), 'ask' => 'btc', 'side' => 'ask', 'price' => $sellprice,
+                $params = array('bid' => 'btc', 'ask' => strtolower($symbol), 'side' => 'ask', 'price' => $sellprice,
                                 'amount'=>$sellamount, 'market' => strtolower($symbol).'btc', 'ord_type' => 'limit');
                 $res = zebitex_api_user('orders', $params);
 
