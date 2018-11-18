@@ -402,7 +402,7 @@ else    {
         echo "\n";
 	}
         echo "alertnotify=echo %s | mail -s \"{$coin->name} alert!\" ".YAAMP_ADMIN_EMAIL."\n";
-        echo "blocknotify=/var/stratum/blocknotify 127.0.0.1:$port {$coin->id} %s\n";
+        echo "blocknotify=blocknotify stratum_internal:$port {$coin->id} %s\n";
         echo " \n";
         echo "' | sudo -E tee {$coin->conf_folder}/$program.conf >/dev/null 2>&1\n";
         echo CHtml::closetag("pre");
