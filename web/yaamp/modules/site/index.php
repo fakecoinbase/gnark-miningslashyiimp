@@ -136,13 +136,13 @@ $payout_freq = (YAAMP_PAYMENTS_FREQ / 3600)." hours";
 <div class="main-left-title">domain Support</div>
 <div class="main-left-inner">
 
-<ul>
-
-<!--  -->
-<a class="twitter-timeline" href="https://twitter.com/cryptopoollife?ref_src=twsrc%5Etfw"</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-</td><td valign=top>
-	
+<ul class="social-icons">
+    <li><a href="http://www.facebook.com"><img src='/images/Facebook.png' /></a></li>
+    <li><a href="http://www.twitter.com"><img src='/images/Twitter.png' /></a></li>
+    <li><a href="http://www.youtube.com"><img src='/images/YouTube.png' /></a></li>
+    <li><a href="http://www.github.com"><img src='/images/Github.png' /></a></li>
 </ul>
+
 </div></div><br>
 </td><td valign=top>
 <!--  -->
