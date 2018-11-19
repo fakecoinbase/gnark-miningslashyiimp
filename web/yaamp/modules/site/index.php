@@ -144,7 +144,7 @@ $payout_freq = (YAAMP_PAYMENTS_FREQ / 3600)." hours";
 	
 </ul>
 </div></div><br>
-
+</td><td valign=top>
 <!--  -->
 
 <div id='pool_current_results'>
