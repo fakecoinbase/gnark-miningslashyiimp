@@ -28,12 +28,12 @@ $payout_freq = (YAAMP_PAYMENTS_FREQ / 3600)." hours";
 <!--  -->
 
 <div class="main-left-box">
-<div class="main-left-title">YII MINING POOLS</div>
+<div class="main-left-title">domain</div>
 <div class="main-left-inner">
 
 <ul>
 
-<li>Welcome to your new mining pool, domain Mining Pool! </li>
+<li>Welcome to your new mining pool, domain! </li>
 <li>This installation was completed using the Ultimate Crypto-Server Setup Installer.</li>
 <li>Any edits to this page should be made to, /home/crypto-data/yiimp/site/web/yaamp/modules/site/index.php</li>
 <li>&nbsp;</li>
@@ -52,15 +52,49 @@ $payout_freq = (YAAMP_PAYMENTS_FREQ / 3600)." hours";
 <!--  -->
 
 <div class="main-left-box">
-<div class="main-left-title">STRATUM SERVERS</div>
+<div class="main-left-title">How to mine with domain</div>
 <div class="main-left-inner">
 
 <ul>
 
-<li>
-<p class="main-left-box" style='padding: 3px; font-size: .8em; background-color: #ffffee; font-family: monospace;'>
-	-o stratum+tcp://<?= YAAMP_STRATUM_URL ?>:&lt;PORT&gt; -u &lt;WALLET_ADDRESS&gt; [-p &lt;OPTIONS&gt;]</p>
-</li>
+<table>
+<thead>
+<tr>
+<th>Stratum</th>
+<th>Coin</th>
+<th>Wallet Address</th>
+<th>RigName</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>
+<select id="drop-stratum" colspan="2" style="min-width: 140px">
+	<option value="mine.">US Stratum</option>
+	<option value="cdn.">CDN Stratum</option>
+	<option value="euro.">Euro Stratum</option>
+	<option value="uk.">UK Stratum</option>
+</select>
+</td>
+<td>
+<select id="drop-coin">
+<option data-port='4533' data-algo='-a lyra2v2' data-symbol='SECI'>SECI (SECI)</option>
+<option data-port='7006' data-algo='-a x22i' data-symbol='SUQA'>SUQA (SUQA)</option>
+<option data-port='7008' data-algo='-a x11' data-symbol='FTO'>Futuro (FTO)</option>
+</select>
+</td>
+<td>
+<input id="text-wallet" type="text" size="44" placeholder="RF9D1R3Vt7CECzvb1SawieUC9cYmAY1qoj">
+</td><td>
+<input id="text-rig-name" type="text" size="10" placeholder="8Cards">
+</td>
+<td>
+<input id="Generate!" type="button" value="Start Mining" onclick="generate()">
+</td>
+</tr>
+<tr><td colspan="5"><p class="main-left-box" style="padding: 3px; background-color: #ffffee; font-family: monospace;" id="output">-a xevan -o stratum+tcp://mine.thepool.life:4533 -u . -p c=SAP</p>
+</td>
+</tr>
+</tbody></table>
 
 <?php if (YAAMP_ALLOW_EXCHANGE): ?>
 <li>&lt;WALLET_ADDRESS&gt; can be one of any currency we mine or a BTC address.</li>
@@ -78,13 +112,10 @@ $payout_freq = (YAAMP_PAYMENTS_FREQ / 3600)." hours";
 <!--  -->
 
 <div class="main-left-box">
-<div class="main-left-title">LINKS</div>
+<div class="main-left-title">Site Links</div>
 <div class="main-left-inner">
 
 <ul>
-
-<!--<li><b>BitcoinTalk</b> - <a href='https://bitcointalk.org/index.php?topic=508786.0' target=_blank >https://bitcointalk.org/index.php?topic=508786.0</a></li>-->
-<!--<li><b>IRC</b> - <a href='http://webchat.freenode.net/?channels=#yiimp' target=_blank >http://webchat.freenode.net/?channels=#yiimp</a></li>-->
 
 <li><b>API</b> - <a href='/site/api'>http://<?= YAAMP_SITE_URL ?>/site/api</a></li>
 <li><b>Difficulty</b> - <a href='/site/diff'>http://<?= YAAMP_SITE_URL ?>/site/diff</a></li>
@@ -102,7 +133,7 @@ $payout_freq = (YAAMP_PAYMENTS_FREQ / 3600)." hours";
 </div></div><br>
 	
 <div class="main-left-box">
-<div class="main-left-title">SUPPORT</div>
+<div class="main-left-title">domain Support</div>
 <div class="main-left-inner">
 
 <ul>
@@ -172,3 +203,25 @@ function pool_history_refresh()
 
 </script>
 
+<script>
+function getLastUpdated(){
+	var drop1 = document.getElementById('drop-stratum');
+	var drop2 = document.getElementById('drop-coin');
+	var rigName = document.getElementById('text-rig-name').value;
+	var result = '';
+
+	result += drop2.options[drop2.selectedIndex].dataset.algo + ' -o stratum+tcp://';
+	result += drop1.value + 'thepool.life:';
+	result += drop2.options[drop2.selectedIndex].dataset.port + ' -u ';
+	result += document.getElementById('text-wallet').value;
+	if (rigName) result += '.' + rigName;
+	result += ' -p c=';
+	result += drop2.options[drop2.selectedIndex].dataset.symbol;
+	return result;
+}
+function generate(){
+  	var result = getLastUpdated()
+		document.getElementById('output').innerHTML = result;
+}
+generate();
+</script>
