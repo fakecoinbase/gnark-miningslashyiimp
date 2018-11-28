@@ -141,7 +141,7 @@ $payout_freq = (YAAMP_PAYMENTS_FREQ / 3600)." hours";
     <li><a href="http://www.twitter.com"><img src='/images/Twitter.png' /></a></li>
     <li><a href="http://www.youtube.com"><img src='/images/YouTube.png' /></a></li>
     <li><a href="http://www.github.com"><img src='/images/Github.png' /></a></li>
-		<li><a href="http://www.discord.com"><img src='/images/discord.png' /></a></li>
+	<li><a href="http://www.discord.com"><img src='/images/discord.png' /></a></li>
 </ul>
 
 </div></div><br>
