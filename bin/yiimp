@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ROOTDIR=/data/yiimp
 DIR=`pwd`
