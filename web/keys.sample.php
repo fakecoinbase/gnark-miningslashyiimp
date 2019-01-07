@@ -1,7 +1,9 @@
 <?php
 /* Sample config file to put in /etc/yiimp/keys.php */
+
 define('YIIMP_MYSQLDUMP_USER', 'root');
 define('YIIMP_MYSQLDUMP_PASS', '<my_mysql_password>');
+
 /* Keys required to create/cancel orders and access your balances/deposit addresses */
 define('EXCH_BITTREX_SECRET', '<my_bittrex_api_secret_key>');
 define('EXCH_BITSTAMP_SECRET','');
@@ -21,3 +23,4 @@ define('EXCH_NOVA_SECRET','');
 define('EXCH_POLONIEX_SECRET', '');
 define('EXCH_STOCKSEXCHANGE_SECRET', '');
 define('EXCH_YOBIT_SECRET', '');
+define('EXCH_ZEBITEX_SECRET', '');
