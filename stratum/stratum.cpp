@@ -127,6 +127,8 @@ YAAMP_ALGO g_algos[] =
 	{"x21s", x21s_hash, 0x100, 0, 0},
 	{"x22i", x22i_hash, 1, 0, 0},
 
+	{"pipe", pipe_hash, 1,0,0},
+	
 	{"x11evo", x11evo_hash, 1, 0, 0},
 	{"xevan", xevan_hash, 0x100, 0, 0},
 
@@ -154,6 +156,7 @@ YAAMP_ALGO g_algos[] =
 	{"decred", decred_hash, 1, 0 },
 
 	{"deep", deep_hash, 1, 0, 0},
+	{"dedal", dedal_hash, 0x100, 0, 0},
 	{"fresh", fresh_hash, 0x100, 0, 0},
 	{"quark", quark_hash, 1, 0, 0},
 	{"nist5", nist5_hash, 1, 0, 0},
@@ -184,6 +187,11 @@ YAAMP_ALGO g_algos[] =
 	{"yescrypt", yescrypt_hash, 0x10000, 0, 0},
 	{"yescryptR16", yescryptR16_hash, 0x10000, 0, 0 },
 	{"yescryptR32", yescryptR32_hash, 0x10000, 0, 0 },
+	{"yespower", yespower_hash, 0x10000, 0, 0 },
+	{"yespowerR8", yespowerR8_hash, 0x10000, 0, 0 },
+	{"yespowerR16", yespowerR16_hash, 0x10000, 0, 0 },
+	{"yespowerR24", yespowerR24_hash, 0x10000, 0, 0 },
+	{"yespowerR32", yespowerR32_hash, 0x10000, 0, 0 },
 	{"zr5", zr5_hash, 1, 0, 0},
 
 	{"a5a", a5a_hash, 0x10000, 0, 0},
@@ -205,6 +213,9 @@ YAAMP_ALGO g_algos[] =
 	{"whirlcoin", whirlpool_hash, 1, 0, sha256_hash_hex }, /* old sha merkleroot */
 	{"whirlpool", whirlpool_hash, 1, 0 }, /* sha256d merkleroot */
 	{"whirlpoolx", whirlpoolx_hash, 1, 0, 0},
+	{"astralhash", astralhash_hash, 0x100, 0, 0},
+	{"jeonghash", jeonghash_hash, 0x100, 0, 0},
+	{"pawelhash", pawelhash_hash, 0x100, 0, 0},
 
 	{"", NULL, 0, 0},
 };
