@@ -453,6 +453,9 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 		strcat(templ->coinb2, script_dests);
 		job_pack_tx(coind, templ->coinb2, available, NULL);
 		strcat(templ->coinb2, "00000000"); // locktime
+		if(coinbase_payload && strlen(coinbase_payload) > 0)
+			strcat(templ->coinb2, coinbase_payload);
+
 		coind->reward = (double)available/100000000*coind->reward_mul;
 		//debuglog("%s total %u available %u\n", coind->symbol, templ->value, available);
 		//debuglog("%s %d dests %s\n", coind->symbol, npayees, script_dests);
