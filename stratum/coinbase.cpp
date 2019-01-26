@@ -27,6 +27,19 @@ static void p2sh_pack_tx(YAAMP_COIND *coind, char *data, json_int_t amount, char
 	strcat(data, coinb2_part);
 }
 
+static void script_pack_tx(YAAMP_COIND *coind, char *data, json_int_t amount, const char *script)
+{
+	char evalue[32];
+	char coinb2_part[256];
+	char coinb2_len[4];
+	encode_tx_value(evalue, amount);
+	sprintf(coinb2_part, "%s", script);
+	sprintf(coinb2_len, "%02x", (unsigned int)(strlen(coinb2_part) >> 1) & 0xFF);
+	strcat(data, evalue);
+	strcat(data, coinb2_len);
+	strcat(data, coinb2_part);
+}
+
 static void job_pack_tx(YAAMP_COIND *coind, char *data, json_int_t amount, char *key)
 {
 	int ol = strlen(data);
@@ -400,8 +413,14 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 		if(superblocks_enabled && superblock) {
 			for(int i = 0; i < superblock->u.array.length; i++) {
 				const char *payee = json_get_string(superblock->u.array.values[i], "payee");
+				const char *script = json_get_string(superblock->u.array.values[i], "script");
 				json_int_t amount = json_get_int(superblock->u.array.values[i], "amount");
-				if (payee && amount) {
+				if (!amount) continue;
+				if (script) {
+					npayees++;
+					available -= amount;
+					script_pack_tx(coind, script_dests, amount, script);
+				} else if (payee) {
 					npayees++;
 					available -= amount;
 					base58_decode(payee, script_payee);
@@ -419,8 +438,14 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 			if (json_is_array(masternode)) {
 				for(int i = 0; i < masternode->u.array.length; i++) {
 					const char *payee = json_get_string(masternode->u.array.values[i], "payee");
+					const char *script = json_get_string(masternode->u.array.values[i], "script");
 					json_int_t amount = json_get_int(masternode->u.array.values[i], "amount");
-					if (payee && amount) {
+					if (!amount) continue;
+					if (script) {
+						npayees++;
+						available -= amount;
+						script_pack_tx(coind, script_dests, amount, script);
+					} else if (payee) {
 						npayees++;
 						available -= amount;
 						base58_decode(payee, script_payee);
