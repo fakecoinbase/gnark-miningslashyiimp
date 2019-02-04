@@ -392,7 +392,49 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 		return;
 
 	}
-	else if ((strcmp(coind->symbol, "IFX") == 0)||(strcmp(coind->symbol, "GTM") == 0)||(strcmp(coind->symbol, "MXT") == 0)||(strcmp(coind->symbol, "AGM") == 0)||(strcmp(coind->symbol, "BMN") == 0)||(strcmp(coind->symbol, "CRDS") == 0))
+	else if (strcmp(coind->symbol,"MXT") == 0)
+	{
+		char payees[4];
+		int npayees = 1;
+		char script_dests[4096] = { 0 };
+
+		json_value* subsidyreward = json_get_array(json_result, "subsidy");
+		if (subsidyreward)
+		{
+			const char *payee = json_get_string(subsidyreward, "address");
+			json_int_t amount = json_get_int(subsidyreward, "amount");
+			if (payee && amount)
+			{
+				char script_payee[128] = { 0 };
+				npayees++;
+				available -= amount;
+				base58_decode(payee, script_payee);
+				job_pack_tx(coind, script_dests, amount, script_payee);
+			}
+		}
+		json_value* masternode = json_get_object(json_result, "masternode");
+		if (masternode)
+		{
+			const char *payee = json_get_string(masternode, "payee");
+			json_int_t amount = json_get_int(masternode, "amount");
+			if (payee && amount) {
+				char script_payee[128] = { 0 };
+				npayees++;
+				available -= amount;
+				base58_decode(payee, script_payee);
+				job_pack_tx(coind, script_dests, amount, script_payee);
+			}
+		}
+	 	sprintf(payees, "%02x", npayees);
+		strcat(templ->coinb2, payees);
+		strcat(templ->coinb2, script_dests);
+		job_pack_tx(coind, templ->coinb2, available, NULL);
+		strcat(templ->coinb2, "00000000"); // locktime
+		coind->reward = (double)available / 100000000 * coind->reward_mul;
+		return;
+
+	}
+	else if ((strcmp(coind->symbol, "IFX") == 0)||(strcmp(coind->symbol, "GTM") == 0)||(strcmp(coind->symbol, "AGM") == 0)||(strcmp(coind->symbol, "BMN") == 0)||(strcmp(coind->symbol, "CRDS") == 0))
 	{
 		char payees[4];
 		int npayees = 1;
