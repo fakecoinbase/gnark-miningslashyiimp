@@ -77,6 +77,7 @@ function yaamp_get_algos()
 		'vitalium',
 		'yescrypt',
 		'yescryptR16',
+		'yescryptR8',
 		'yescryptR32',
 		'whirlpool',
 		'zr5',
@@ -136,6 +137,7 @@ function yaamp_get_algo_norm($algo)
 		'whirlpool'	=> 1.0,
 		'yescrypt'	=> 1.0,
 		'yescryptR16'	=> 1.0,
+		'yescryptR8'	=> 1.0,
 		'yescryptR32'	=> 1.0,
 		'zr5'		=> 1.0,
 	);
@@ -221,6 +223,7 @@ function getAlgoColors($algo)
 		'whirlpool'	=> '#d0e0e0',
 		'yescrypt'	=> '#e0d0e0',
 		'yescryptR16'	=> '#e2d0e2',
+		'yescryptR8'	=> '#e0d0e0',
 		'yescryptR32'	=> '#e2d0d2',
 		'zr5'		=> '#d0b0d0',
 
@@ -306,6 +309,7 @@ function getAlgoPort($algo)
 		'vitalium'	=> 3233,
 		'yescrypt'	=> 6233,
 		'yescryptR16'	=> 6333,
+		'yescryptR8'	=> 6353,
 		'yescryptR32'	=> 6343,
 		'bastion'	=> 6433,
 		'hsr'		=> 7433,
