@@ -30,6 +30,7 @@ char g_stratum_coin_exclude[256];
 
 char g_stratum_algo[256];
 double g_stratum_difficulty;
+double g_stratum_nicehash_difficulty;
 double g_stratum_min_diff;
 double g_stratum_max_diff;
 
@@ -281,6 +282,7 @@ int main(int argc, char **argv)
 
 	strcpy(g_stratum_algo, iniparser_getstring(ini, "STRATUM:algo", NULL));
 	g_stratum_difficulty = iniparser_getdouble(ini, "STRATUM:difficulty", 16);
+	g_stratum_nicehash_difficulty = iniparser_getdouble(ini, "STRATUM:nicehash", 16);
 	g_stratum_min_diff = iniparser_getdouble(ini, "STRATUM:diff_min", g_stratum_difficulty/2);
 	g_stratum_max_diff = iniparser_getdouble(ini, "STRATUM:diff_max", g_stratum_difficulty*8192);
 
