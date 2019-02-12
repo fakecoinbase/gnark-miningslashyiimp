@@ -23,3 +23,7 @@ web/assets/
 .idea/*
 web/yaamp/.idea/
 *.0
+web/keys.sample.php
+web/yaamp/modules/site/coin_form.php
+web/yaamp/modules/site/index.php
+web/yaamp/modules/site/results/current_results.php
