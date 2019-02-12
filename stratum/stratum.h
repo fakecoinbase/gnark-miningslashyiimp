@@ -83,6 +83,7 @@ extern char g_stratum_algo[256];
 extern double g_stratum_difficulty;
 extern double g_stratum_min_diff;
 extern double g_stratum_max_diff;
+extern double g_stratum_nicehash_difficulty;
 
 extern int g_stratum_max_cons;
 extern int g_stratum_max_ttf;
