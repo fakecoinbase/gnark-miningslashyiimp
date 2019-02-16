@@ -74,25 +74,8 @@ void build_submit_values(YAAMP_JOB_VALUES *submitvalues, YAAMP_JOB_TEMPLATE *tem
 		sprintf(submitvalues->header, "%s%s%s%s%s%s", templ->version, templ->prevhash_be, veilsha_be, ntime, templ->nbits, nonce);
 		ser_string_be(submitvalues->header, submitvalues->header_be, 112/4);
 	}
-
-	binlify(submitvalues->header_bin, submitvalues->header_be);
-
-//	printf("%s\n", submitvalues->header_be);
-	int header_len = strlen(submitvalues->header)/2;
-	g_current_algo->hash_function((char *)submitvalues->header_bin, (char *)submitvalues->hash_bin, header_len);
-
-	hexlify(submitvalues->hash_hex, submitvalues->hash_bin, 32);
-	string_be(submitvalues->hash_hex, submitvalues->hash_be);
-
-	printf("blkhdr  : %s\n", submitvalues->header_be);
-	printf("powhash : %s\n",submitvalues->hash_be);
-	printf("\n");
-}
-
-/////////////////////////////////////////////////////////////////////////////////	
 	
-	
-	else if (!strcmp(g_stratum_algo, "lbry")) {
+		else if (!strcmp(g_stratum_algo, "lbry")) {
 		sprintf(submitvalues->header, "%s%s%s%s%s%s%s", templ->version, templ->prevhash_be, submitvalues->merkleroot_be,
 			templ->claim_be, ntime, templ->nbits, nonce);
 		ser_string_be(submitvalues->header, submitvalues->header_be, 112/4);
@@ -114,9 +97,14 @@ void build_submit_values(YAAMP_JOB_VALUES *submitvalues, YAAMP_JOB_TEMPLATE *tem
 
 	hexlify(submitvalues->hash_hex, submitvalues->hash_bin, 32);
 	string_be(submitvalues->hash_hex, submitvalues->hash_be);
+
+	printf("blkhdr  : %s\n", submitvalues->header_be);
+	printf("powhash : %s\n",submitvalues->hash_be);
+	printf("\n");
 }
 
-/////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////	
+	
 
 static void create_decred_header(YAAMP_JOB_TEMPLATE *templ, YAAMP_JOB_VALUES *out,
 	const char *ntime, const char *nonce, const char *nonce2, const char *vote, bool usegetwork)
