@@ -18,6 +18,9 @@ void build_submit_values(YAAMP_JOB_VALUES *submitvalues, YAAMP_JOB_TEMPLATE *tem
 
 	char doublehash[128];
 	memset(doublehash, 0, 128);
+	
+	char veildatahash[1024];
+	memset(veildatahash, 0, 1024);
 
 	// some (old) wallet/algos need a simple SHA256 (blakecoin, whirlcoin, groestlcoin...)
 	YAAMP_HASH_FUNCTION merkle_hash = sha256_double_hash_hex;
