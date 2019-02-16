@@ -230,7 +230,6 @@ static void decred_fix_template(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, j
 
 YAAMP_JOB_TEMPLATE *coind_create_template(YAAMP_COIND *coind)
 {
-	debuglog("stratum gbt refresh\n");
 	if(coind->usememorypool)
 		return coind_create_template_memorypool(coind);
 
@@ -308,24 +307,6 @@ YAAMP_JOB_TEMPLATE *coind_create_template(YAAMP_COIND *coind)
 	strcpy(templ->prevhash_hex, prev ? prev : "");
 	const char *flags = json_get_string(json_coinbaseaux, "flags");
 	strcpy(templ->flags, flags ? flags : "");
-	
-	///////////////////////////////////////////////////////////////////////////veil////
-
-        strcpy(templ->veil_pofn,json_get_string(json_result, "proofoffullnodehash"));
-        if (templ->veil_pofn)
-        {
-        	json_value *json_accumhashes = json_get_array(json_result, "accumulatorhashes");
-                if(json_accumhashes)
-                {
-                	strcpy(templ->veil_accum10,json_get_string(json_accumhashes,"10"));
-                        strcpy(templ->veil_accum100,json_get_string(json_accumhashes,"100"));
-                        strcpy(templ->veil_accum1000,json_get_string(json_accumhashes,"1000"));
-                        strcpy(templ->veil_accum10000,json_get_string(json_accumhashes,"10000"));
-                }
-
-        }
-
-        ////veil//////////////////////////////////////////////////////////////////////////
 
 	// LBC Claim Tree (with wallet gbt patch)
 	const char *claim = json_get_string(json_result, "claimtrie");
@@ -532,7 +513,6 @@ bool coind_create_job(YAAMP_COIND *coind, bool force)
 	CommonLock(&coind->mutex);
 
 	YAAMP_JOB_TEMPLATE *templ;
-	templ = coind_create_template(coind);
 
 	// DCR gbt block header is not compatible with getwork submit, so...
 
