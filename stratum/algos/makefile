@@ -18,8 +18,8 @@ SOURCES=lyra2re.c lyra2v2.c lyra2v3.c Lyra2.c lyra2z.c Lyra2-z.c lyra2zz.c Lyra2
 	scrypt.c scryptn.c sha256.c sha256t.c sha256q.c \
 	yescrypt.c yescrypt-opt.c sha256_Y.c \
 	a5a.c a5amath.c m7m.c magimath.cpp velvet.c \
-	argon2m.c blake2/blake2b.c argon2d/argon2.c argon2d/core.c argon2d/encoding.c argon2d/opt.c argon2d/thread.c \
-	hive.c pomelo.c hex.c \
+	blake2/blake2b.c argon2d/argon2.c argon2d/core.c argon2d/encoding.c argon2d/opt.c argon2d/thread.c \
+	hive.c pomelo.c hex.c argon2m.c \
 
 	phi.c phi2.c polytimos.c rainforest.c skunk.c sib.c veltor.c gost.c aergo.c x20r.c x21s.c lbk3.c pipehash.c \
 	yespower.c yespower-opt.c sha256-P.c dedal.c
