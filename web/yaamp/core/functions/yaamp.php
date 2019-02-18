@@ -19,7 +19,7 @@ function yaamp_get_algos()
 		'blakecoin',
 		'blake2s',
 		'blake2b',
-		'cuckoo',
+		'argon2m',
 		'decred',
 		'deep',
 		'exosis',
@@ -99,7 +99,6 @@ function yaamp_algo_mBTC_factor($algo)
 	case 'blakecoin':
 	case 'blake2s':
 	case 'blake2b':
-	case 'cuckoo':
 	case 'decred':
 	case 'keccak':
 	case 'keccakc':
@@ -125,6 +124,7 @@ function yaamp_get_algo_norm($algo)
 		'x11'		=> 1.0,
 		'x13'		=> 1.0,
 		'argon2'	=> 1.0,
+		'argon2m'	=> 1.0,
 		'argon2d-dyn'	=> 1.0,
 		'lyra2'		=> 1.0,
 		'lyra2v2'	=> 1.0,
@@ -162,7 +162,6 @@ function getAlgoColors($algo)
 		'neoscrypt'	=> '#a0d0f0',
 		'scryptn'	=> '#d0d0d0',
 		'c11'		=> '#a0a0d0',
-		'cuckoo'	=> '#9696dd',
 		'decred'	=> '#f0f0f0',
 		'deep'		=> '#e0ffff',
 		'x11'		=> '#f0f0a0',
@@ -182,6 +181,7 @@ function getAlgoColors($algo)
 		'xevan'		=> '#f0b0a0',
 		'allium'	=> '#80a0d0',
 		'argon2'	=> '#e0d0e0',
+		'argon2m'	=> '#e0d0e0',
 		'argon2d-dyn'	=> '#e0d0e0',
 		'aergo'		=> '#e0d0e0',
 		'bastion'	=> '#e0b0b0',
@@ -250,7 +250,6 @@ function getAlgoPort($algo)
 		'sha256'	=> 3333,
 		'sha256t'	=> 3339,
 		'sha256q'	=> 3337,
-		'cuckoo'	=> 8633,
 		'lbry'		=> 3334,
 		'scrypt'	=> 3433,
 		'timetravel'	=> 3555,
@@ -279,7 +278,8 @@ function getAlgoPort($algo)
 		'quark'		=> 4033,
 		'whirlpool'	=> 4133,
 		'neoscrypt'	=> 4233,
-		'argon2'	=> 4234,
+		'argon2'	=> 4235,
+		'argon2m'	=> 4234,
 		'argon2d-dyn'	=> 4239,
 		'scryptn'	=> 4333,
 		'allium'	=> 4443,
