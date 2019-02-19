@@ -376,8 +376,8 @@ function updateRawcoins()
 		{
 			dborun("UPDATE markets SET deleted=true WHERE name='kucoin'");
 			foreach($list->data as $item) {
-				$symbol = $item->coin;
-				$name = $item->name;
+				$symbol = $item->name;
+				$name = $item->fullName;
 				if (strpos($item->withdrawRemark,'Ethereum')) continue;
 				updateRawCoin('kucoin', $symbol, $name);
 			}
