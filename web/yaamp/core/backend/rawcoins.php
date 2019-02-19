@@ -371,7 +371,7 @@ function updateRawcoins()
 	}
 
 	if (!exchange_get('kucoin', 'disabled')) {
-		$list = kucoin_api_query('market/open/coins');
+		$list = kucoin_api_query('currencies');
 		if(is_object($list) && isset($list->data) && !empty($list->data))
 		{
 			dborun("UPDATE markets SET deleted=true WHERE name='kucoin'");
