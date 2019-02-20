@@ -151,6 +151,7 @@ void sha256_hash_hex(const char *input, char *output, unsigned int len);
 void sha256_double_hash_hex(const char *input, char *output, unsigned int len);
 
 #include "algos/a5a.h"
+#include "algos/binarium_hash_v1.h"
 #include "algos/c11.h"
 #include "algos/x11.h"
 #include "algos/x11evo.h"
