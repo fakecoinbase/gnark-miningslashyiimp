@@ -327,7 +327,7 @@ function getAlgoPort($algo)
 		'hsr'		=> 7433,
 		'phi'		=> 8333,
 		'phi2'		=> 8332,
-		'phi1612'	=> 8333,
+		'phi1612'	=> 8334,
 		'polytimos'	=> 8463,
 		'skunk'		=> 8433,
 		'tribus'	=> 8533,
