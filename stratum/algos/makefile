@@ -22,7 +22,10 @@ SOURCES=lyra2re.c lyra2v2.c lyra2v3.c Lyra2.c lyra2z.c Lyra2-z.c lyra2zz.c Lyra2
 	hive.c pomelo.c hex.c argon2m.c \
 	phi.c phi2.c polytimos.c rainforest.c skunk.c sib.c veltor.c gost.c aergo.c x20r.c x21s.c lbk3.c pipehash.c \
 	yespower.c yespower-opt.c sha256-P.c dedal.c phi1612.c bcd.c \
-	binarium_hash_v1.c binarium_hash_v1/hashing/streebog/table/stribog.c binarium_hash_v1/hashing/whirlpool/whirlpool.c binarium_hash_v1/hashing/whirlpool/byte_order.c binarium_hash_v1/encryption/gost2015_kuznechik/SIMD.c binarium_hash_v1/encryption/gost2015_kuznechik/SIMD_tables.c binarium_hash_v1/encryption/gost2015_kuznechik/shared/tables.c binarium_hash_v1/encryption/three_fish/libskein_skein.cc binarium_hash_v1/encryption/salsa20/salsa20.c
+	binarium_hash_v1.c binarium_hash_v1/hashing/streebog/table/stribog.c binarium_hash_v1/hashing/whirlpool/whirlpool.c \
+	binarium_hash_v1/hashing/whirlpool/byte_order.c binarium_hash_v1/encryption/gost2015_kuznechik/SIMD.c \
+	binarium_hash_v1/encryption/gost2015_kuznechik/SIMD_tables.c binarium_hash_v1/encryption/gost2015_kuznechik/shared/tables.c \
+	binarium_hash_v1/encryption/three_fish/libskein_skein.cc binarium_hash_v1/encryption/salsa20/salsa20.c
 	
 OBJECTS=$(SOURCES:%.c=%.o) $(SOURCES:%.cpp=%.o)
 $(SOURCES:%.cc=%.o)
