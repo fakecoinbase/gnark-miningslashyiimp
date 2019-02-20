@@ -27,8 +27,7 @@ SOURCES=lyra2re.c lyra2v2.c lyra2v3.c Lyra2.c lyra2z.c Lyra2-z.c lyra2zz.c Lyra2
 	binarium_hash_v1/encryption/gost2015_kuznechik/SIMD_tables.c binarium_hash_v1/encryption/gost2015_kuznechik/shared/tables.c \
 	binarium_hash_v1/encryption/three_fish/libskein_skein.cc binarium_hash_v1/encryption/salsa20/salsa20.c
 	
-OBJECTS=$(SOURCES:%.c=%.o) $(SOURCES:%.cpp=%.o)
-$(SOURCES:%.cc=%.o)
+OBJECTS=$(SOURCES:%.c=%.o) $(SOURCES:%.cpp=%.o) $(SOURCES:%.cc=%.o)
 OUTPUT=libalgos.a
 
 all: $(SOURCES) $(OUTPUT)
