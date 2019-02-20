@@ -194,7 +194,7 @@ void sha256_double_hash_hex(const char *input, char *output, unsigned int len);
 #include "algos/skunk.h"
 #include "algos/timetravel.h"
 #include "algos/bitcore.h"
-
+#include "algos/bcd.h"
 #include "algos/bastion.h"
 #include "algos/bmw.h"
 #include "algos/deep.h"
