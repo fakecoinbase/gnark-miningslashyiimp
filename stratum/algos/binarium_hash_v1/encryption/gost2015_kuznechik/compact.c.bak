@@ -238,4 +238,3 @@ void decryptBlockWithGost15(
     }
     applyXTransformation(&roundKeys_[BlockLengthInBytes * round_], block, block);
 }
-

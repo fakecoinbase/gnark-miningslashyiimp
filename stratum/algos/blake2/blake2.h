@@ -78,7 +78,7 @@ int blake2b_final(blake2b_state *S, void *out, size_t outlen);
 
 /* Simple API */
 int blake2b(void *out, size_t outlen, const void *in, size_t inlen,
-                         const void *key, size_t keylen);
+            const void *key, size_t keylen);
 
 /* Argon2 Team - Begin Code */
 int blake2b_long(void *out, size_t outlen, const void *in, size_t inlen);
