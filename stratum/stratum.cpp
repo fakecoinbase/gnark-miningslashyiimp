@@ -179,7 +179,7 @@ YAAMP_ALGO g_algos[] =
 
 	{"phi", phi_hash, 1, 0, 0},
 	{"phi2", phi2_hash, 0x100, 0, 0},
-	{"phi1612", phi1612_hash, 0x100, 0, 0},
+	{"phi1612", phi1612_hash, 1, 0, 0},
 
 	{"polytimos", polytimos_hash, 1, 0, 0},
 	{"skunk", skunk_hash, 1, 0, 0},
