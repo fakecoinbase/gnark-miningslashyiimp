@@ -65,6 +65,9 @@ function BackendCoinPayments($coin)
 			while($user->balance > $min_payout && $amount > $min_payout)
 			{
 				debuglog("$coin->symbol sendtoaddress $user->username $amount");
+				if($coin->symbol == 'MBC')
+				$tx = $remote->sendtoaddress($user->username, round($amount, 4));
+				else
 				$tx = $remote->sendtoaddress($user->username, round($amount, 8));
 				if(!$tx)
 				{
