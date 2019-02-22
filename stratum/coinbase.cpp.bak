@@ -309,6 +309,42 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 			return;
 		}
 	}
+
+	// 2 txs are required on these coins, one for foundation (dev fees)
+	if(coind->charity_percent && !coind->hasmasternodes)
+	{
+		char script_payee[1024];
+		char charity_payee[256] = { 0 };
+		const char *payee = json_get_string(json_result, "payee");
+		if (payee) snprintf(charity_payee, 255, "%s", payee);
+		else sprintf(charity_payee, "%s", coind->charity_address);
+		if (strlen(charity_payee) == 0)
+			stratumlog("ERROR %s has no charity_address set!\n", coind->name);
+
+		base58_decode(charity_payee, script_payee);
+
+		json_int_t charity_amount = json_get_int(json_result, "payee_amount");
+		if (charity_amount <= 0)
+			charity_amount = (available * coind->charity_percent) / 100;
+
+		available -= charity_amount;
+		coind->charity_amount = charity_amount;
+
+		if (templ->has_segwit_txs) {
+			strcat(templ->coinb2, "03"); // 3 outputs (nulldata + fees + miner)
+			strcat(templ->coinb2, commitment);
+		} else {
+			strcat(templ->coinb2, "02");
+		}
+		job_pack_tx(coind, templ->coinb2, available, NULL);
+		job_pack_tx(coind, templ->coinb2, charity_amount, script_payee);
+		strcat(templ->coinb2, "00000000"); // locktime
+
+		coind->reward = (double)available/100000000*coind->reward_mul;
+		//debuglog("INFO %s block available %f, charity %f miner %f\n", coind->symbol,
+		//	(double) available/1e8, (double) charity_amount/1e8, coind->reward);
+		return;
+	}
 	
     else if ((strcmp(coind->symbol, "GLT") == 0)||(strcmp(coind->symbol2, "GLT") == 0))
 	{
