@@ -26,6 +26,7 @@ function yaamp_get_algos()
 		'dmd-gr',
 		'exosis',
 		'groestl', // dmd-gr -m 256 (deprecated)
+		'geek',
 		'hex',
 		'hmq1725',
 		'hsr',
@@ -213,6 +214,7 @@ function getAlgoColors($algo)
 		'quark'		=> '#c0c0c0',
 		'qubit'		=> '#d0a0f0',
 		'rainforest'	=> '#d0f0a0',
+		'renesis'	=> '#f0b0a0',
 		'scrypt'	=> '#c0c0e0',
 		'scryptn'	=> '#d0d0d0',
 		'sha256'	=> '#d0d0a0',
