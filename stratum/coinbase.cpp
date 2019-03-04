@@ -78,10 +78,10 @@ void coinbase_aux(YAAMP_JOB_TEMPLATE *templ, char *aux_script)
 
 	sprintf(aux_script+strlen(aux_script), "fabe6d6d%s%02x00000000000000", merkle_hash, templ->auxs_size);
 //	debuglog("aux_script is %s\n", aux_script);
-}
+	}
 
-void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *json_result)
-{
+	void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *json_result)
+	{
 	char eheight[32], etime[32];
 	char entime[32] = { 0 };
 	char commitment[128] = { 0 };
@@ -140,7 +140,7 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 			return;
 		}
 
-		if(superblocks_enabled && superblock) {
+	if(superblocks_enabled && superblock) {
 			for(int i = 0; i < superblock->u.array.length; i++) {
 				const char *payee = json_get_string(superblock->u.array.values[i], "payee");
 				json_int_t amount = json_get_int(superblock->u.array.values[i], "amount");
@@ -153,7 +153,7 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 				}
 			}
 		}
-		if (dynode_enabled && dynode) {
+	if (dynode_enabled && dynode) {
 			bool started;
 			started = json_get_bool(json_result, "dynode_payments_started");
 			const char *payee = json_get_string(dynode, "payee");
@@ -218,7 +218,8 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 		coind->reward = (double)available/100000000*coind->reward_mul;
 		return;
 	}
-	else if(strcmp("DCR", coind->rpcencoding) == 0) {
+	
+    else if(strcmp("DCR", coind->rpcencoding) == 0) {
 		coind->reward_mul = 6;  // coinbase value is wrong, reward_mul should be 6
 		coind->charity_percent = 0;
 		coind->charity_amount = available;
@@ -314,13 +315,13 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 	{
 		char script_dests[2048] = { 0 };
 		char script_payee[128] = { 0 };
-        char script_treasury[128] = { 0 };
+        	char script_treasury[128] = { 0 };
 		char payees[4];
 		int npayees = 1;
 		bool masternode_enabled = json_get_bool(json_result, "masternode_payments_enforced");
 		json_value* masternode = json_get_object(json_result, "masternode");
-        json_value* treasury = json_get_object(json_result, "treasury");
-        bool treasury_enabled = true;
+        	json_value* treasury = json_get_object(json_result, "treasury");
+        	bool treasury_enabled = true;
 		if(treasury_enabled && treasury) {
 				const char *scriptPubKey = json_get_string(treasury, "scriptPubKey");
                 memcpy(script_treasury, &scriptPubKey, sizeof script_treasury);
@@ -444,7 +445,14 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 
 	}
 
-	else if ((strcmp(coind->symbol, "IFX") == 0)||(strcmp(coind->symbol, "GTM") == 0)||(strcmp(coind->symbol, "GOV") == 0)||(strcmp(coind->symbol, "GWAY") == 0)||(strcmp(coind->symbol, "ALMN") == 0)||(strcmp(coind->symbol, "AGM") == 0)||(strcmp(coind->symbol, "BMN") == 0)||(strcmp(coind->symbol, "CRDS") == 0))
+	else if ((strcmp(coind->symbol, "IFX") == 0)||
+		 (strcmp(coind->symbol, "GTM") == 0)||
+		 (strcmp(coind->symbol, "GOV") == 0)||
+		 (strcmp(coind->symbol, "GWAY") == 0)||
+		 (strcmp(coind->symbol, "ALMN") == 0)||
+		 (strcmp(coind->symbol, "AGM") == 0)||
+		 (strcmp(coind->symbol, "BMN") == 0)||
+		 (strcmp(coind->symbol, "CRDS") == 0))
 	{
 		char payees[4];
 		int npayees = 1;
