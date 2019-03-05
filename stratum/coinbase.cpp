@@ -452,6 +452,7 @@ void coinbase_aux(YAAMP_JOB_TEMPLATE *templ, char *aux_script)
 		 (strcmp(coind->symbol, "ALMN") == 0)||
 		 (strcmp(coind->symbol, "AGM") == 0)||
 		 (strcmp(coind->symbol, "BMN") == 0)||
+		 (strcmp(coind->symbol, "MNGO") == 0)||
 		 (strcmp(coind->symbol, "CRDS") == 0))
 	{
 		char payees[4];
