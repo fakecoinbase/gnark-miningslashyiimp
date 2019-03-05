@@ -452,6 +452,7 @@ void coinbase_aux(YAAMP_JOB_TEMPLATE *templ, char *aux_script)
 		 (strcmp(coind->symbol, "ALMN") == 0)||
 		 (strcmp(coind->symbol, "AGM") == 0)||
 		 (strcmp(coind->symbol, "BMN") == 0)||
+		 (strcmp(coind->symbol, "MNGO") == 0)||
 		 (strcmp(coind->symbol, "CRDS") == 0))
 	{
 		char payees[4];
@@ -1060,7 +1061,6 @@ void coinbase_aux(YAAMP_JOB_TEMPLATE *templ, char *aux_script)
 	//	strcat(templ->coinb2, "00");
 	if(strcmp(coind->symbol, "DEM") == 0){if(coind->txmessage){strcat(templ->coinb2, "00");}} //fixes eMark.
     	if(strcmp(coind->symbol, "FLO") == 0){if(coind->txmessage){strcat(templ->coinb2, "00");}} //fixes FlorinCoin
-	if(strcmp(coind->symbol, "MNGO") == 0){if(coind->txmessage){strcat(templ->coinb2, "00");}}
 	strcat(templ->coinb2, "00000000"); // locktime
 
 	coind->reward = (double)available/100000000*coind->reward_mul;
