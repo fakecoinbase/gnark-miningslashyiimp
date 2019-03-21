@@ -444,17 +444,6 @@ function updateRawcoins()
 		}
 	}
 
-	if (!exchange_get('zebitex', 'disabled')) {
-		$data = zebitex_api_user('funds'); // private API contains coin labels
-		if(!empty($data)) {
-			dborun("UPDATE markets SET deleted=true WHERE name='zebitex'");
-			foreach ($data as $currency) {
-				$symbol = objSafeVal($currency, 'code');
-				$name = objSafeVal($currency, 'title');
-				updateRawCoin('zebitex', $symbol, $name);
-			}
-		}
-	}
 	//////////////////////////////////////////////////////////
 
 	$markets = dbocolumn("SELECT DISTINCT name FROM markets");
@@ -492,7 +481,7 @@ function updateRawcoins()
 function updateRawCoin($marketname, $symbol, $name='unknown')
 {
 	if($symbol == 'BTC') return;
-	
+
 	// Restrict $symbol and $name to strict defined set of characters (to protect from rogue exchange or DNS attack on exchange)
 	if (preg_match('/[^A-Za-z0-9_\$]/', $symbol)) {
 		debuglog("weird symbol $symbol from $marketname");

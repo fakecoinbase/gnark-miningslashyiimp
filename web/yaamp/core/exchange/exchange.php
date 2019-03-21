@@ -142,9 +142,6 @@ function getMarketUrl($coin, $marketName)
 		$url = "https://tradesatoshi.com/Exchange?market={$symbol}_{$base}";
 	else if($market == 'yobit')
 		$url = "https://yobit.net/en/trade/{$symbol}/{$base}";
-	else if($market == 'zebitex')
-		$url = "https://staging.zebitex.com/{$symbol}{$base}";
-//		$url = "https://zebitex.com/{$symbol}-{$base}";
 	else
 		$url = "";
 
