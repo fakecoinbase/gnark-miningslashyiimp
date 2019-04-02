@@ -156,6 +156,7 @@ void sha256_double_hash_hex(const char *input, char *output, unsigned int len);
 #include "algos/allium.h"
 #include "algos/argon2d.h"
 #include "algos/argon2m.h"
+#include "algos/argon2d-dyn.h"
 #include "algos/balloon.h"
 #include "algos/bastion.h"
 #include "algos/bcd.h"
