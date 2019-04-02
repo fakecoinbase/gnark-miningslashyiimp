@@ -22,7 +22,7 @@ of yescrypt 0.5.
 #include "yespower-opt.c"
 
 static const yespower_params_t yespower_0_5_R8 = {YESPOWER_0_5, 2048, 8, "Client Key", 10};
-static const yespower_params_t yespower_0_9_R16 = {YESPOWER_0_9, 4096, 16, NULL, 0};
+static const yespower_params_t yespower_1_0_R16 = {YESPOWER_1_0, 4096, 16, NULL, 0};
 static const yespower_params_t yespower_0_5_R24 = {YESPOWER_0_5, 4096, 24, "Jagaricoin", 10};
 static const yespower_params_t yespower_0_5_R32 = {YESPOWER_0_5, 4096, 32, "WaviBanana", 10};
 
@@ -35,7 +35,7 @@ void yespowerR8_hash(const char *input, char *output, uint32_t len)
 }
 void yespowerR16_hash(const char *input, char *output, uint32_t len)
 {
-	yespower_tls(input, 80, &yespower_0_9_R16, (yespower_binary_t *)output);
+	yespower_tls(input, 80, &yespower_1_0_R16, (yespower_binary_t *)output);
 }
 void yespowerR24_hash(const char *input, char *output, uint32_t len)
 {
