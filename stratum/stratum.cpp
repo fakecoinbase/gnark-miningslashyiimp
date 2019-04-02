@@ -117,6 +117,7 @@ YAAMP_ALGO g_algos[] =
 	{"aergo", aergo_hash, 1, 0, 0},
 	{"allium", allium_hash, 0x100, 0, 0},
 	{"argon2d-crds", argon2d_crds_hash, 0x10000, 0, 0 },
+	{"argon2d-dyn", argon2d_dyn_hash, 0x10000, 0, 0 }, // Dynamic Argon2d Implementation
 	{"argon2m", argon2m_hash, 0x10000, 0, 0},
 	{"balloon", balloon_hash, 1, 0, 0},
 	{"bastion", bastion_hash, 1, 0 },
