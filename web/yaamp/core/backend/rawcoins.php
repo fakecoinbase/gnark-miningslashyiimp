@@ -9,7 +9,6 @@ function updateRawcoins()
 
 	exchange_set_default('alcurex', 'disabled', true);
 	exchange_set_default('binance', 'disabled', true);
-	exchange_set_default('bter', 'disabled', true);
 	exchange_set_default('empoex', 'disabled', true);
 	exchange_set_default('coinbene', 'disabled', true);
 	exchange_set_default('coinexchange', 'disabled', true);
@@ -34,18 +33,6 @@ function updateRawcoins()
 					continue;
 				}
 				updateRawCoin('bittrex', $currency->Currency, $currency->CurrencyLong);
-			}
-		}
-	}
-
-	if (!exchange_get('bitfinex', 'disabled')) {
-		$list = bitfinex_api_query('symbols');
-		if(is_array($list) && !empty($list)) {
-			dborun("UPDATE markets SET deleted=true WHERE name='bitfinex'");
-			foreach ($list as $pair) {
-				if (strpos($pair, 'usd') || !strpos($pair, 'btc')) continue;
-				$symbol = strtoupper(str_replace('btc', '', $pair));
-				updateRawCoin('bitfinex', $symbol);
 			}
 		}
 	}
@@ -135,26 +122,6 @@ function updateRawcoins()
 				$symbol = strtoupper($e[0]);
 
 				updateRawCoin('c-cex', $symbol, arraySafeVal($names, $e[0], 'unknown'));
-			}
-		}
-	}
-
-	if (!exchange_get('bter', 'disabled')) {
-		$list = bter_api_query('marketlist');
-		if(is_object($list) && is_array($list->data))
-		{
-			dborun("UPDATE markets SET deleted=true WHERE name='bter'");
-			foreach($list->data as $item) {
-				if (strtoupper($item->curr_b) !== 'BTC')
-					continue;
-				if (strpos($item->name, 'Asset') !== false)
-					continue;
-				if (strpos($item->name, 'BitShares') !== false && $item->symbol != 'BTS')
-					continue;
-				// ignore some dead coins and assets
-				if (in_array($item->symbol, array('BITGLD','DICE','ROX','TOKEN')))
-					continue;
-				updateRawCoin('bter', $item->symbol, $item->name);
 			}
 		}
 	}
@@ -415,22 +382,6 @@ function updateRawcoins()
 		}
 	}
 
-	if (!exchange_get('tradeogre', 'disabled')) {
-		$list = tradeogre_api_query('markets');
-		if(is_array($list) && !empty($list))
-		{
-			dborun("UPDATE markets SET deleted=true WHERE name='tradeogre'");
-			foreach($list as $ticker) {
-				$symbol_index = key($ticker);
-				$e = explode('-', $symbol_index);
-				if (strtoupper($e[0]) !== 'BTC')
-					continue;
-				$symbol = strtoupper($e[1]);
-				updateRawCoin('tradeogre', $symbol);
-			}
-		}
-	}
-
 	if (!exchange_get('tradesatoshi', 'disabled')) {
 		$data = tradesatoshi_api_query('getcurrencies');
 		if(is_object($data) && !empty($data->result))
@@ -482,16 +433,6 @@ function updateRawCoin($marketname, $symbol, $name='unknown')
 {
 	if($symbol == 'BTC') return;
 
-	// Restrict $symbol and $name to strict defined set of characters (to protect from rogue exchange or DNS attack on exchange)
-	if (preg_match('/[^A-Za-z0-9_\$]/', $symbol)) {
-		debuglog("weird symbol $symbol from $marketname");
-		return;
-		}
-	if (preg_match('/[^A-Za-z0-9_\$ ]/', $name)) {
-		debuglog("weird name $name for symbol $symbol from $marketname");
-		return;
-		}
-
 	$coin = getdbosql('db_coins', "symbol=:symbol", array(':symbol'=>$symbol));
 	if(!$coin && YAAMP_CREATE_NEW_COINS)
 	{
@@ -511,7 +452,7 @@ function updateRawCoin($marketname, $symbol, $name='unknown')
 			}
 		}
 
-		if (in_array($marketname, array('nova','askcoin','binance','bitfinex','bitz','coinexchange','coinsmarkets','cryptobridge','hitbtc'))) {
+		if (in_array($marketname, array('nova','askcoin','binance','bitz','coinexchange','coinsmarkets','cryptobridge','hitbtc'))) {
 			// don't polute too much the db with new coins, its better from exchanges with labels
 			return;
 		}
@@ -563,3 +504,4 @@ function updateRawCoin($marketname, $symbol, $name='unknown')
 	}
 
 }
+

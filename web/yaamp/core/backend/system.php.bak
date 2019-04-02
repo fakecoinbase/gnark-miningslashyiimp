@@ -19,9 +19,6 @@ function BackendDoBackup()
 	$user = YIIMP_MYSQLDUMP_USER;
 	$pass = YIIMP_MYSQLDUMP_PASS;
 
-	$d = date('Y-m-d-H', time());
-	$filename = YIIMP_MYSQLDUMP_PATH.DIRECTORY_SEPARATOR."$db-$d.sql";
-
 	if (1) {
 		// faster on huge databases if the disk is fast (nvme), reduce the db lock time
 		system("mysqldump -h $host -u$user -p$pass --skip-extended-insert $db > $filename");

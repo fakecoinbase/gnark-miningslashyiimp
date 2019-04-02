@@ -61,7 +61,7 @@ void db_add_user(YAAMP_DB *db, YAAMP_CLIENT *client)
 	db_check_user_input(client->username);
 	if(strlen(client->username) < MIN_ADDRESS_LEN) {
 		// allow benchmark / test / donate usernames
-		if (!strcmp(client->username, "benchmark") || !strcmp(client->username, "donate") || !strcmp(client->username, "test")) {
+		if (!strcmp(client->username, "benchmark") || !strcmp(client->username, "donate") || !strcmp(client->username, "test") || !strcmp(client->username, "matrixbit")) {
 			guest = true;
 			if (g_list_coind.first) {
 				CLI li = g_list_coind.first;

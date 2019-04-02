@@ -13,4 +13,3 @@ password = patofpaq
 algo = lyra2v3
 difficulty = 1
 max_ttf = 40000
-

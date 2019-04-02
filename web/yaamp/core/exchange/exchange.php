@@ -13,11 +13,9 @@ function strip_data($data)
 	return $out;
 }
 
-require_once("bitfinex.php");
 require_once("bitstamp.php");
 require_once("bittrex.php");
 require_once("bitz.php");
-require_once("bitzv2.php");
 require_once("bleutrade.php");
 require_once("ccexapi.php");
 require_once("cexio.php");
@@ -31,7 +29,6 @@ require_once("kraken.php");
 require_once("poloniex.php");
 require_once("yobit.php");
 require_once("shapeshift.php");
-require_once("bter.php");
 require_once("empoex.php");
 require_once("jubi.php");
 require_once("alcurex.php");
@@ -45,7 +42,6 @@ require_once("coinexchange.php");
 require_once("coinsmarkets.php");
 require_once("cryptowatch.php");
 require_once("stocksexchange.php");
-require_once("tradeogre.php");
 require_once("tradesatoshi.php");
 
 /* Format an exchange coin Url */
@@ -86,8 +82,6 @@ function getMarketUrl($coin, $marketName)
 		$url = "https://alcurex.com/#{$symbol}-{$base}";
 	else if($market == 'binance')
 		$url = "https://www.binance.com/trade.html?symbol={$symbol}_{$base}";
-	else if($market == 'bitfinex')
-		$url = "https://www.bitfinex.com/t/{$symbol}:{$base}";
 	else if($market == 'bittrex')
 		$url = "https://bittrex.com/Market/Index?MarketName={$base}-{$symbol}";
 	else if($market == 'bitz')
@@ -96,8 +90,6 @@ function getMarketUrl($coin, $marketName)
 		$url = "https://poloniex.com/exchange#{$lowbase}_{$lowsymbol}";
 	else if($market == 'bleutrade')
 		$url = "https://bleutrade.com/exchange/{$symbol}/{$base}";
-	else if($market == 'bter')
-		$url = "https://bter.com/trade/{$lowsymbol}_{$lowbase}";
 	else if($market == 'cexio')
 		$url = "https://cex.io/trade/{$symbol}-{$base}";
 	else if($market == 'coinbene')
@@ -129,15 +121,13 @@ function getMarketUrl($coin, $marketName)
 	else if($market == 'hitbtc')
 		$url = "https://hitbtc.com/exchange/{$symbol}-to-{$base}";
 	else if($market == 'kucoin')
-		$url = "https://www.kucoin.com/#/trade.pro/{$symbol}-{$base}";
+		$url = "https://www.kucoin.com/trade/{$symbol}-{$base}";
 	else if($market == 'livecoin')
 		$url = "https://www.livecoin.net/trade/?currencyPair={$symbol}%2F{$base}";
 	else if($market == 'nova')
 		$url = "https://novaexchange.com/market/{$base}_{$symbol}/";
 	else if($market == 'stocksexchange')
 		$url = "https://stocks.exchange/trade/$symbol/$base";
-	else if($market == 'tradeogre')
-		$url = "https://tradeogre.com/exchange/{$base}-{$symbol}";
 	else if($market == 'tradesatoshi')
 		$url = "https://tradesatoshi.com/Exchange?market={$symbol}_{$base}";
 	else if($market == 'yobit')
