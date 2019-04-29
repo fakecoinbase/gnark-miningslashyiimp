@@ -353,6 +353,89 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 		return;
 	}
 	
+	    else if(strcmp(coind->symbol, "BZX") == 0) {
+        char script_payee[1024];
+
+        bool znode_masternode_enabled = json_get_bool(json_result, "bznode_payments_started");
+        if (znode_masternode_enabled == true) {
+            json_value* znode_masternode = json_get_object(json_result, "bznode");
+            const char *payee = json_get_string(znode_masternode, "payee");
+            json_int_t amount = json_get_int(znode_masternode, "amount");
+            if (payee && amount) {
+                //debuglog("bznode payee: %s\n", payee);
+                strcat(templ->coinb2, "04");
+                job_pack_tx(coind, templ->coinb2, available, NULL);
+
+                base58_decode(payee, script_payee);
+                job_pack_tx(coind, templ->coinb2, amount, script_payee);
+            }
+        } else {
+            strcat(templ->coinb2, "03");
+            job_pack_tx(coind, templ->coinb2, available, NULL);
+        }
+
+        base58_decode("XWfdnGbXnBxeegrPJEvnYaNuwf6DXCruMX", script_payee);
+        job_pack_tx(coind, templ->coinb2, 7.5 * 100000000, script_payee);
+
+        base58_decode("XQ4WEZTFP83gVhhLBKavwopz7U84JucR8w", script_payee);
+        job_pack_tx(coind, templ->coinb2, 1.5 * 100000000, script_payee);
+
+
+        strcat(templ->coinb2, "00000000"); // locktime
+        coind->reward = (double)available/100000000*coind->reward_mul;
+
+        return;
+    }
+	
+	else if(strcmp(coind->symbol, "SECI") == 0) {
+		char script_payee[512] = { 0 };
+		char payees[1];
+		int npayees = (templ->has_segwit_txs) ? 2 : 1;
+		bool masternode_payments = json_get_bool(json_result, "masternode_payments");
+		bool masternodes_enabled = json_get_bool(json_result, "enforce_masternode_payments");
+ 		if (masternodes_enabled && masternode_payments) {
+			const char *payee = json_get_string(json_result, "payee");
+			json_int_t amount = json_get_int(json_result, "payee_amount");
+			if (payee && amount)
+				++npayees;
+		}
+ 		//mainnet
+        	json_int_t charity_amount = 50000000;
+        	sprintf(coind->charity_address, "3FMmX2S8yknSZ4NsxtxbQwQkgvbe81R5kR");
+ 		//testnet
+        	//json_int_t charity_amount = 50000000;
+        	//sprintf(coind->charity_address, "93ASJtDuVYVdKXemH9BrtSMscznvsp9stD");
+		++npayees;
+		available -= charity_amount;
+		base58_decode(coind->charity_address, script_payee);
+		sprintf(payees, "%02x", npayees);
+		strcat(templ->coinb2, payees);
+		if (templ->has_segwit_txs) strcat(templ->coinb2, commitment);
+		char echarity_amount[32];
+		encode_tx_value(echarity_amount, charity_amount);
+		strcat(templ->coinb2, echarity_amount);
+		char coinb2_part[1024] = { 0 };
+		char coinb2_len[3] = { 0 };
+		sprintf(coinb2_part, "a9%02x%s87", (unsigned int)(strlen(script_payee) >> 1) & 0xFF, script_payee);
+		sprintf(coinb2_len, "%02x", (unsigned int)(strlen(coinb2_part) >> 1) & 0xFF);
+		strcat(templ->coinb2, coinb2_len);
+		strcat(templ->coinb2, coinb2_part);
+		if (masternodes_enabled && masternode_payments) {
+			//duplicated: revisit ++todo
+			const char *payee = json_get_string(json_result, "payee");
+			json_int_t amount = json_get_int(json_result, "payee_amount");
+			if (payee && amount) {
+				available -= amount;
+				base58_decode(payee, script_payee);
+				job_pack_tx(coind, templ->coinb2, amount, script_payee);
+			}
+		}
+		job_pack_tx(coind, templ->coinb2, available, NULL);
+		strcat(templ->coinb2, "00000000"); // locktime
+ 		coind->reward = (double)available / 100000000 * coind->reward_mul;
+		return;
+	}
+		
 	else if(strcmp(coind->symbol, "TUX") == 0)  {
 		char script_payee[1024];
 		char charity_payee[256] = { 0 };
