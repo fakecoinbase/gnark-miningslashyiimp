@@ -49,3 +49,4 @@ clean:
 	rm -f ar2/*.o
 	rm -f blake2/*.o
 	rm -f SWIFFTX/*.o
+	rm -f rfv2/*.o
