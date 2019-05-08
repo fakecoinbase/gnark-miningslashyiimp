@@ -98,3 +98,9 @@ void client_initialize_difficulty(YAAMP_CLIENT *client)
 	}
 
 }
+
+
+
+
+
+
