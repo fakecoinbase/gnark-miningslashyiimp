@@ -230,6 +230,7 @@ void sha256_double_hash_hex(const char *input, char *output, unsigned int len);
 #include "algos/x20r.h"
 #include "algos/x21s.h"
 #include "algos/x22i.h"
+#include "algos/x25x.h"
 #include "algos/xevan.h"
 #include "algos/yescrypt.h"
 #include "algos/yespower.h"
