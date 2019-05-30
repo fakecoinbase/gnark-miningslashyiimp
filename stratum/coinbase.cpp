@@ -304,7 +304,8 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 		return;
 	}
 	
-		else if ((strcmp(coind->symbol, "IFX") == 0)||
+		else if (
+		 (strcmp(coind->symbol, "IFX") == 0)||
 		 (strcmp(coind->symbol, "GTM") == 0)||
 		 (strcmp(coind->symbol, "GOV") == 0)||
 		 (strcmp(coind->symbol, "GWAY") == 0)||
