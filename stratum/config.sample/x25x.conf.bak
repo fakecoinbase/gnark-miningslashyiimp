@@ -11,6 +11,6 @@ password = patofpaq
 
 [STRATUM]
 algo = x25x
-difficulty = 0.0025
+difficulty = 0.008
 max_ttf = 50000
 
