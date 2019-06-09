@@ -353,6 +353,7 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 		 (strcmp(coind->symbol, "ALMN") == 0)||
 		 (strcmp(coind->symbol, "AGM") == 0)||
 		 (strcmp(coind->symbol, "BMN") == 0)||
+		(strcmp(coind->symbol, "TNA") == 0)||
 		 (strcmp(coind->symbol, "CRDS") == 0))
 	{
 		char payees[4];
