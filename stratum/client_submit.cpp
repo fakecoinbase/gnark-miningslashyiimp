@@ -400,22 +400,6 @@ bool client_submit(YAAMP_CLIENT *client, json_value *json_params)
 	string_lower(ntime);
 	string_lower(nonce);
 	string_lower(vote);
-	if (json_params->u.array.length == 6) {
-		if (strstr(g_stratum_algo, "phi")) {
-			// lux optional field, smart contral root hashes (not mandatory on shares submit)
-			strncpy(extra, json_params->u.array.values[5]->u.string.ptr, 128);
-			string_lower(extra);
-		} else {
-			// heavycoin vote
-			strncpy(vote, json_params->u.array.values[5]->u.string.ptr, 7);
-			string_lower(vote);
-		}
-	}
-
-	if (g_debuglog_hash) {
-		debuglog("submit %s (uid %d) %d, %s, t=%s, n=%s, extra=%s\n", client->sock->ip, client->userid,
-			jobid, extranonce2, ntime, nonce, extra);
-	}
 
 	YAAMP_JOB *job = (YAAMP_JOB *)object_find(&g_list_job, jobid, true);
 	if(!job)
