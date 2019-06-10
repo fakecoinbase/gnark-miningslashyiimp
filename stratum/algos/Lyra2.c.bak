@@ -44,7 +44,7 @@
  *
  * @return 0 if the key is generated correctly; -1 if there is an error (usually due to lack of memory for allocation)
  */
-int LYRA2(void *K, int64_t kLen, const void *pwd, int32_t pwdlen, const void *salt, int32_t saltlen, int64_t timeCost, const int64_t nRows, const int16_t nCols)
+int LYRA2(void *K, int64_t kLen, const void *pwd, int32_t pwdlen, const void *salt, int32_t saltlen, int64_t timeCost, const int16_t nRows, const int16_t nCols)
 {
 	//============================= Basic variables ============================//
 	int64_t row = 2; //index of row to be processed
@@ -233,8 +233,7 @@ int LYRA2_3(void *K, int64_t kLen, const void *pwd, int32_t pwdlen, const void *
 
 	const int64_t ROW_LEN_INT64 = BLOCK_LEN_INT64 * nCols;
 	const int64_t ROW_LEN_BYTES = ROW_LEN_INT64 * 8;
-	// for Lyra2REv2, nCols = 4, v1 was using 8
-	const int64_t BLOCK_LEN = (nCols == 4) ? BLOCK_LEN_BLAKE2_SAFE_INT64 : BLOCK_LEN_BLAKE2_SAFE_BYTES;
+	const int64_t BLOCK_LEN = BLOCK_LEN_BLAKE2_SAFE_INT64;
 
 	size_t sz = (size_t)ROW_LEN_BYTES * nRows;
 	uint64_t *wholeMatrix = malloc(sz);
@@ -334,10 +333,10 @@ int LYRA2_3(void *K, int64_t kLen, const void *pwd, int32_t pwdlen, const void *
 
 		//Checks if all rows in the window where visited.
 		if (rowa == 0) {
-		step = window + gap; //changes the step: approximately doubles its value
-		window *= 2; //doubles the size of the re-visitation window
-		gap = -gap; //inverts the modifier to the step
-	}
+			step = window + gap; //changes the step: approximately doubles its value
+			window *= 2; //doubles the size of the re-visitation window
+			gap = -gap; //inverts the modifier to the step
+		}
 
 	} while (row < nRows);
 	//==========================================================================/
@@ -346,12 +345,12 @@ int LYRA2_3(void *K, int64_t kLen, const void *pwd, int32_t pwdlen, const void *
 	row = 0; //Resets the visitation to the first row of the memory matrix
 	for (tau = 1; tau <= timeCost; tau++) {
 		//Step is approximately half the number of all rows of the memory matrix for an odd tau; otherwise, it is -1
-		step = (tau % 2 == 0) ? -1 : nRows / 2 - 1;
+		step = ((tau & 1) == 0) ? -1 : (nRows >> 1) - 1;
 		do {
 			//Selects a pseudorandom index row*
 			//------------------------------------------------------------------------------------------
-			instance = state[instance % 16];
-			rowa = state[instance % 16] & (unsigned int)(nRows-1);
+			instance = state[instance & 0xF];
+			rowa = state[instance & 0xF] & (unsigned int)(nRows-1);
 
 			//rowa = state[0] & (unsigned int)(nRows-1);  //(USE THIS IF nRows IS A POWER OF 2)
 			//rowa = state[0] % nRows; //(USE THIS FOR THE "GENERIC" CASE)
