@@ -172,7 +172,7 @@ class ApiController extends CommonController
 					'name' => $coin->name,
 					'reward' => $coin->reward,
 					'height' => (int) $coin->block_height,
-					'difficulty' => $difficulty,
+					'difficulty' => $coin->difficulty,
 					'workers' => $workers,
 					'shares' =>  (int) arraySafeVal($shares,'shares'),
 					'hashrate' => round($factor * $algo_hashrate),
