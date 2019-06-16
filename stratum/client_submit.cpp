@@ -149,11 +149,6 @@ static void client_do_submit(YAAMP_CLIENT *client, YAAMP_JOB *job, YAAMP_JOB_VAL
 	uint64_t coin_target = decode_compact(templ->nbits);
 	if (templ->nbits && !coin_target) coin_target = 0xFFFF000000000000ULL;
 
-        // please forgive me for this hack jebus
-        if (strstr(g_current_algo->name,"balloon") &&
-           (submitvalues->hash_bin[30] | submitvalues->hash_bin[31]))
-           coin_target = 0x0;
-
 	int block_size = YAAMP_SMALLBUFSIZE;
 	vector<string>::const_iterator i;
 
@@ -358,32 +353,31 @@ static bool ntime_valid_range(const char ntimehex[])
 	return (abs(rawtime - ntime) < (30 * 60));
 }
 
+static bool valid_string_params(json_value *json_params)
+{
+	for(int p=0; p < json_params->u.array.length; p++) {
+		if (!json_is_string(json_params->u.array.values[p]))
+			return false;
+	}
+	return true;
+}
+
 bool client_submit(YAAMP_CLIENT *client, json_value *json_params)
 {
-        bool isBalloon = false;
-
-        if (strstr(g_current_algo->name,"balloon"))
-           isBalloon = true;
-
 	// submit(worker_name, jobid, extranonce2, ntime, nonce):
-	if(json_params->u.array.length<5)
-	{
+	if(json_params->u.array.length<5 || !valid_string_params(json_params)) {
 		debuglog("%s - %s bad message\n", client->username, client->sock->ip);
 		client->submit_bad++;
 		return false;
 	}
 
-	char extranonce2[32];
-	char ntime[32];
-	char nonce[32];
-	char vote[8];
+	char extranonce2[32] = { 0 };
+	char extra[160] = { 0 };
+	char nonce[80] = { 0 };
+	char ntime[32] = { 0 };
+	char vote[8] = { 0 };
 
-	memset(extranonce2, 0, 32);
-	memset(ntime, 0, 32);
-	memset(nonce, 0, 32);
-	memset(vote, 0, 8);
-
-	if (!json_params->u.array.values[1]->u.string.ptr || strlen(json_params->u.array.values[1]->u.string.ptr) > 32) {
+	if (strlen(json_params->u.array.values[1]->u.string.ptr) > 32) {
 		clientlog(client, "bad json, wrong jobid len");
 		client->submit_bad++;
 		return false;
@@ -393,18 +387,11 @@ bool client_submit(YAAMP_CLIENT *client, json_value *json_params)
 	strncpy(extranonce2, json_params->u.array.values[2]->u.string.ptr, 31);
 	strncpy(ntime, json_params->u.array.values[3]->u.string.ptr, 31);
 	strncpy(nonce, json_params->u.array.values[4]->u.string.ptr, 31);
-	if (json_params->u.array.length == 6)
-		strncpy(vote, json_params->u.array.values[5]->u.string.ptr, 7);
-
-	if (g_debuglog_hash) {
-		debuglog("submit %s (uid %d) %d, %s, %s, %s\n", client->sock->ip, client->userid, jobid, extranonce2, ntime, nonce);
-	}
 
 	string_lower(extranonce2);
 	string_lower(ntime);
 	string_lower(nonce);
-	string_lower(vote);
-	
+
 	if (json_params->u.array.length == 6) {
 		if (strstr(g_stratum_algo, "phi")) {
 			// lux optional field, smart contral root hashes (not mandatory on shares submit)
@@ -448,7 +435,7 @@ bool client_submit(YAAMP_CLIENT *client, json_value *json_params)
 
 	if(strcmp(ntime, templ->ntime))
 	{
-		if (!ntime_valid_range(ntime)) {
+		if (!ishexa(ntime, 8) || !ntime_valid_range(ntime)) {
 			client_submit_error(client, job, 23, "Invalid time rolling", extranonce2, ntime, nonce);
 			return true;
 		}
@@ -516,51 +503,27 @@ bool client_submit(YAAMP_CLIENT *client, json_value *json_params)
 
 	// minimum hash diff begins with 0000, for all...
 	uint8_t pfx = submitvalues.hash_bin[30] | submitvalues.hash_bin[31];
-
-        // except balloon
-        if(isBalloon)
-           pfx = (submitvalues.hash_bin[30] > 0x0b) | submitvalues.hash_bin[31];
-  
 	if(pfx) {
 		if (g_debuglog_hash) {
 			debuglog("Possible %s error, hash starts with %02x%02x%02x%02x\n", g_current_algo->name,
 				(int) submitvalues.hash_bin[31], (int) submitvalues.hash_bin[30],
 				(int) submitvalues.hash_bin[29], (int) submitvalues.hash_bin[28]);
-                }
+		}
 		client_submit_error(client, job, 25, "Invalid share", extranonce2, ntime, nonce);
 		return true;
 	}
 
-        // bit dim, but so is measuring the diff this way
-        uint64_t user_target;
 	uint64_t hash_int = get_hash_difficulty(submitvalues.hash_bin);
-        uint64_t coin_target = decode_compact(templ->nbits);
-        uint64_t hashcomb = * (uint64_t *) &submitvalues.hash_bin[24];
+	uint64_t user_target = diff_to_target(client->difficulty_actual);
+	uint64_t coin_target = decode_compact(templ->nbits);
+	if (templ->nbits && !coin_target) coin_target = 0xFFFF000000000000ULL;
 
-        // prevents overflow
-        if(!isBalloon) {
-                user_target = diff_to_target(client->difficulty_actual);
-        }
-        if(templ->nbits && !coin_target) coin_target = 0xFFFF000000000000ULL;
-
-        // due to balloon's lower diff
-        if (g_debuglog_hash && isBalloon) {
-                debuglog("hash %016lx \n", hashcomb);
-                debuglog("targ %016lx \n", sharetotarg(client->difficulty_actual));
-        }
-	if (g_debuglog_hash && !isBalloon) {
+	if (g_debuglog_hash) {
 		debuglog("%016llx actual\n", hash_int);
 		debuglog("%016llx target\n", user_target);
 		debuglog("%016llx coin\n", coin_target);
 	}
-
-        // due to balloon's lower diff
-        if(hashcomb > sharetotarg(client->difficulty_actual) && isBalloon) 
-        {
-                client_submit_error(client, job, 26, "Low difficulty share", extranonce2, ntime, nonce);
-                return true;
-        }
-	if(hash_int > user_target && hash_int > coin_target && !isBalloon)
+	if(hash_int > user_target && hash_int > coin_target)
 	{
 		client_submit_error(client, job, 26, "Low difficulty share", extranonce2, ntime, nonce);
 		return true;
