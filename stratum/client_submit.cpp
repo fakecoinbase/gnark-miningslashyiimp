@@ -31,10 +31,14 @@ void build_submit_values(YAAMP_JOB_VALUES *submitvalues, YAAMP_JOB_TEMPLATE *tem
 #ifdef MERKLE_DEBUGLOG
 	printf("merkle root %s\n", merkleroot.c_str());
 #endif
-	if (!strcmp(g_current_algo->name, "lbry")) {
+	if (!strcmp(g_stratum_algo, "lbry")) {
 		sprintf(submitvalues->header, "%s%s%s%s%s%s%s", templ->version, templ->prevhash_be, submitvalues->merkleroot_be,
 			templ->claim_be, ntime, templ->nbits, nonce);
-		ser_string_be(submitvalues->header, submitvalues->header_be, 32 + 20);
+		ser_string_be(submitvalues->header, submitvalues->header_be, 112/4);
+	} else if (strlen(templ->extradata_be) == 128) { // LUX SC
+		sprintf(submitvalues->header, "%s%s%s%s%s%s%s", templ->version, templ->prevhash_be, submitvalues->merkleroot_be,
+			ntime, templ->nbits, nonce, templ->extradata_be);
+		ser_string_be(submitvalues->header, submitvalues->header_be, 36); // 80+64 / sizeof(u32)
 	} else {
 		sprintf(submitvalues->header, "%s%s%s%s%s%s", templ->version, templ->prevhash_be, submitvalues->merkleroot_be,
 			ntime, templ->nbits, nonce);
@@ -400,6 +404,23 @@ bool client_submit(YAAMP_CLIENT *client, json_value *json_params)
 	string_lower(ntime);
 	string_lower(nonce);
 	string_lower(vote);
+	
+	if (json_params->u.array.length == 6) {
+		if (strstr(g_stratum_algo, "phi")) {
+			// lux optional field, smart contral root hashes (not mandatory on shares submit)
+			strncpy(extra, json_params->u.array.values[5]->u.string.ptr, 128);
+			string_lower(extra);
+		} else {
+			// heavycoin vote
+			strncpy(vote, json_params->u.array.values[5]->u.string.ptr, 7);
+			string_lower(vote);
+		}
+	}
+
+	if (g_debuglog_hash) {
+		debuglog("submit %s (uid %d) %d, %s, t=%s, n=%s, extra=%s\n", client->sock->ip, client->userid,
+			jobid, extranonce2, ntime, nonce, extra);
+	}
 
 	YAAMP_JOB *job = (YAAMP_JOB *)object_find(&g_list_job, jobid, true);
 	if(!job)
