@@ -426,17 +426,17 @@ if ($coin->id) {
 				echo CHtml::closetag("pre");
 
 				echo CHtml::tag("hr");
-				echo "<b>Example Daemon Commands</b>:";
+				echo "<b>Daemon Commands</b>:";
 				echo "<b>You MUST use this format or coins will not work!</b>:";
 				echo CHtml::opentag("pre");
-				echo "To START a coind:";
-				echo "{$coin->program} -datadir={$coin->conf_folder} -conf=$program.conf -daemon -shrinkdebugfile\n";
-				echo "To STOP a coind:";
-				echo "{$coin->program} -datadir={$coin->conf_folder} -conf=$program.conf stop\n";
+				echo "To START a coind:\n";
+				echo "{$coin->program} -datadir={$coin->conf_folder} -conf=$program.conf -daemon -shrinkdebugfile\n\n";
+				echo "To STOP a coind:\n";
+				echo "{$coin->program} -datadir={$coin->conf_folder} -conf=$program.conf stop\n\n";
 				echo "Or if your coin has a -cli (bitcoin-cli) file...\n";
-				echo "$program-cli -datadir={$coin->conf_folder} -conf=$program.conf stop\n";
-				echo "To run other CLI functions:";
-				echo "$program-cli -datadir={$coin->conf_folder} -conf=$program.conf help\n";
+				echo "$program-cli -datadir={$coin->conf_folder} -conf=$program.conf stop\n\n";
+				echo "To run other CLI functions:\n";
+				echo "$program-cli -datadir={$coin->conf_folder} -conf=$program.conf help\n\n";
 				echo "To edit the coin.config file:";
 				echo "sudo nano {$coin->conf_folder}/$program.conf\n";
 				echo CHtml::closetag("pre");
