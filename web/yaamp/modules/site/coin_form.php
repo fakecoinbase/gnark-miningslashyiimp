@@ -437,7 +437,7 @@ if ($coin->id) {
 				echo "$program-cli -datadir={$coin->conf_folder} -conf=$program.conf stop\n\n";
 				echo "To run other CLI functions:\n";
 				echo "$program-cli -datadir={$coin->conf_folder} -conf=$program.conf help\n\n";
-				echo "To edit the coin.config file:";
+				echo "To edit the coin.config file:\n";
 				echo "sudo nano {$coin->conf_folder}/$program.conf\n";
 				echo CHtml::closetag("pre");
 
