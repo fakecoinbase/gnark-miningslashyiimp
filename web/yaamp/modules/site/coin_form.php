@@ -298,7 +298,7 @@ echo CUFHtml::closeCtrlHolder();}
 echo CUFHtml::openActiveCtrlHolder($coin, 'rpchost');
 echo CUFHtml::activeLabelEx($coin, 'rpchost');
 echo CUFHtml::activeTextField($coin, 'rpchost', array('maxlength'=>128,'style'=>'width: 180px;'));
-echo '<p class="formHint2">I.e. 127.0.0.1 or Internal IP</p>';
+echo '<p class="formHint2">I.e. 127.0.0.1 WireGuard use 10.0.0.x or Internal IP from host</p>';
 echo CUFHtml::closeCtrlHolder();
 
 if(empty($coin->rpcport))
