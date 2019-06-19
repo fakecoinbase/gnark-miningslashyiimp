@@ -344,7 +344,7 @@ echo CUFHtml::closeCtrlHolder();
 echo CUFHtml::openActiveCtrlHolder($coin, 'dedicatedport');
 echo CUFHtml::activeLabelEx($coin, 'dedicatedport');
 echo CUFHtml::activeTextField($coin, 'dedicatedport', array('maxlength'=>5,'style'=>'width: 60px;'));
-echo '<p class="formHint2">Run addport to get Port Number</p>';
+echo '<p class="formHint2">Run addport to get Port Number, leave blank if not using dedicated coin ports.</p>';
 echo CUFHtml::closeCtrlHolder();
 
 echo CUFHtml::openActiveCtrlHolder($coin, 'rpccurl');
