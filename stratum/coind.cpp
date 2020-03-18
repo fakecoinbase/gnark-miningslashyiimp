@@ -196,7 +196,7 @@ void coind_init(YAAMP_COIND *coind)
 		}
 	}
 
-	    bool is_aur = ((strcmp(coind->symbol,"DGB") == 0) || (strcmp(coind->symbol2, "DGB") == 0));
+	    bool is_dgb = ((strcmp(coind->symbol,"DGB") == 0) || (strcmp(coind->symbol2, "DGB") == 0));
 
     if (is_aur) {
         if (json) json_value_free(json);
@@ -204,7 +204,7 @@ void coind_init(YAAMP_COIND *coind)
         json = rpc_call(&coind->rpc, "getnewaddress", params);
     }
 	
-	    bool is_aur = ((strcmp(coind->symbol,"BTCV") == 0) || (strcmp(coind->symbol2, "BTCV") == 0));
+	    bool is_btcv = ((strcmp(coind->symbol,"BTCV") == 0) || (strcmp(coind->symbol2, "BTCV") == 0));
 
     if (is_aur) {
         if (json) json_value_free(json);
@@ -212,7 +212,7 @@ void coind_init(YAAMP_COIND *coind)
         json = rpc_call(&coind->rpc, "getnewaddress", params);
     }
 	
-	    bool is_aur = ((strcmp(coind->symbol,"BTCVT") == 0) || (strcmp(coind->symbol2, "BTCVT") == 0));
+	    bool is_btcvt = ((strcmp(coind->symbol,"BTCVT") == 0) || (strcmp(coind->symbol2, "BTCVT") == 0));
 
     if (is_aur) {
         if (json) json_value_free(json);
@@ -220,7 +220,7 @@ void coind_init(YAAMP_COIND *coind)
         json = rpc_call(&coind->rpc, "getnewaddress", params);
     }
 	
-	    bool is_aur = ((strcmp(coind->symbol,"BFL") == 0) || (strcmp(coind->symbol2, "BFL") == 0));
+	    bool is_bfl = ((strcmp(coind->symbol,"BFL") == 0) || (strcmp(coind->symbol2, "BFL") == 0));
 
     if (is_aur) {
         if (json) json_value_free(json);
@@ -228,7 +228,7 @@ void coind_init(YAAMP_COIND *coind)
         json = rpc_call(&coind->rpc, "getnewaddress", params);
     }
 	
-	    bool is_aur = ((strcmp(coind->symbol,"PIGY") == 0) || (strcmp(coind->symbol2, "PIGY") == 0));
+	    bool is_pigy = ((strcmp(coind->symbol,"PIGY") == 0) || (strcmp(coind->symbol2, "PIGY") == 0));
 
     if (is_aur) {
         if (json) json_value_free(json);
