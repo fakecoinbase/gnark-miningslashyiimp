@@ -20,8 +20,7 @@ void lyra2z330_hash(void *state, const void *input, uint32_t height)
 {
 	uint32_t _ALIGN(256) hash[16];
 
-   LYRA2Z( lyra2z330_wholeMatrix, hash, 32, input, 80, input, 80,
-                 2, 330, 256 );
+   LYRA2Z( lyra2z330_wholeMatrix, hash, 32, input, 80, input, 80, 2, 330, 256 );
 
 	memcpy(state, hash, 32);
 }
@@ -50,8 +49,7 @@ int scanhash_lyra2z330( struct work *work, uint32_t max_nonce,
    {
       edata[19] = nonce;
 
-      LYRA2Z( lyra2z330_wholeMatrix, hash, 32, edata, 80, edata, 80,
-                 2, 330, 256 );
+      LYRA2Z( lyra2z330_wholeMatrix, hash, 32, edata, 80, edata, 80, 2, 330, 256 );
       
 //      lyra2z330_hash( hash, edata, work->height );
       if ( valid_hash( hash, ptarget ) && !opt_benchmark )
