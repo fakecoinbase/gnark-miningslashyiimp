@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 #include "Lyra2-z330.h"
-#include "Lyra2z330.h"
+#include "lyra2z330.h"
 
 #include <sha3/sph_blake.h>
 
