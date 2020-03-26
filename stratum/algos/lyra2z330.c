@@ -12,7 +12,7 @@
 
 #include "common.h"
 #include "lyra2z330.h"
-#include "lyra2.h"
+#include "Lyra2.h"
 
 __thread uint64_t* lyra2z330_wholeMatrix;
 
