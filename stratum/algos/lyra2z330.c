@@ -12,56 +12,58 @@
 
 #include "common.h"
 #include "lyra2z330.h"
+#include "lyra2.h"
 
 __thread uint64_t* lyra2z330_wholeMatrix;
 
-void lyra2z330_hash(const char* input, char* output, uint32_t len)
+void lyra2z330_hash(void *state, const void *input, uint32_t height)
 {
 	uint32_t _ALIGN(256) hash[16];
 
-        LYRA2Z( lyra2z330_wholeMatrix, hash, 32, input, 80, input, 80, 2, 330, 256 );
+   LYRA2Z( lyra2z330_wholeMatrix, hash, 32, input, 80, input, 80,
+                 2, 330, 256 );
 
 	memcpy(state, hash, 32);
 }
 
-int scanhash_lyra2z330( int thr_id, struct work *work, uint32_t max_nonce, uint64_t *hashes_done )
+int scanhash_lyra2z330( struct work *work, uint32_t max_nonce,
+                        uint64_t *hashes_done, struct thr_info *mythr )
 {
-	uint32_t hash[8] __attribute__ ((aligned (64))); 
-	uint32_t endiandata[20] __attribute__ ((aligned (64)));
-	uint32_t *pdata = work->data;
-	uint32_t *ptarget = work->target;
-	const uint32_t Htarg = ptarget[7];
-	const uint32_t first_nonce = pdata[19];
-	uint32_t nonce = first_nonce;
-	if (opt_benchmark)
-		ptarget[7] = 0x0000ff;
+   uint32_t hash[8] __attribute__ ((aligned (128))); 
+   uint32_t edata[20] __attribute__ ((aligned (64)));
+   uint32_t *pdata = work->data;
+   uint32_t *ptarget = work->target;
+   const uint32_t first_nonce = pdata[19];
+   uint32_t nonce = first_nonce;
+   const int thr_id = mythr->id; 
 
-	for (int i=0; i < 19; i++) {
-		be32enc(&endiandata[i], pdata[i]);
-	}
+   if (opt_benchmark)
+	ptarget[7] = 0x0000ff;
 
-	do {
-		be32enc(&endiandata[19], nonce);
-		lyra2z330_hash( hash, endiandata, work->height );
+   casti_m128i( edata, 0 ) = mm128_bswap_32( casti_m128i( pdata, 0 ) );
+   casti_m128i( edata, 1 ) = mm128_bswap_32( casti_m128i( pdata, 1 ) );
+   casti_m128i( edata, 2 ) = mm128_bswap_32( casti_m128i( pdata, 2 ) );
+   casti_m128i( edata, 3 ) = mm128_bswap_32( casti_m128i( pdata, 3 ) );
+   casti_m128i( edata, 4 ) = mm128_bswap_32( casti_m128i( pdata, 4 ) );
+   
+   do
+   {
+      edata[19] = nonce;
 
-		if (hash[7] <= Htarg && fulltest(hash, ptarget)) {
-			work_set_target_ratio(work, hash);
-			pdata[19] = nonce;
-			*hashes_done = pdata[19] - first_nonce;
-			return 1;
-		}
-		nonce++;
-
-	} while (nonce < max_nonce && !work_restart[thr_id].restart);
-
-	pdata[19] = nonce;
-	*hashes_done = pdata[19] - first_nonce + 1;
-	return 0;
-}
-
-void lyra2z330_set_target( struct work* work, double job_diff )
-{
- work_set_target( work, job_diff / (256.0 * opt_diff_factor) );
+      LYRA2Z( lyra2z330_wholeMatrix, hash, 32, edata, 80, edata, 80,
+                 2, 330, 256 );
+      
+//      lyra2z330_hash( hash, edata, work->height );
+      if ( valid_hash( hash, ptarget ) && !opt_benchmark )
+      {
+         be32enc( pdata + 19, nonce );
+         submit_solution( work, hash, mythr );
+      }
+      nonce++;
+   } while ( nonce < max_nonce && !work_restart[thr_id].restart );
+   pdata[19] = nonce;
+   *hashes_done = nonce - first_nonce;
+   return 0;
 }
 
 bool lyra2z330_thread_init()
@@ -81,7 +83,6 @@ bool register_lyra2z330_algo( algo_gate_t* gate )
   gate->miner_thread_init = (void*)&lyra2z330_thread_init;
   gate->scanhash   = (void*)&scanhash_lyra2z330;
   gate->hash       = (void*)&lyra2z330_hash;
-  gate->get_max64  = (void*)&get_max64_0xffffLL;
-  gate->set_target = (void*)&lyra2z330_set_target;
+  opt_target_factor = 256.0;
   return true;
 };
