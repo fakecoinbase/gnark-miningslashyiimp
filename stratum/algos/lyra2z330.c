@@ -3,28 +3,17 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "Lyra2-z330.h"
-#include "lyra2z330.h"
-
-#include <sha3/sph_blake.h>
+#include "lyra2z.h"
 
 #define _ALIGN(x) __attribute__ ((aligned(x)))
 
-extern uint64_t lyra2z330_height;
+//extern uint64_t lyra2z330_height;
 
 void lyra2z330_hash(const char* input, char* output, uint32_t len)
 {
-	uint32_t _ALIGN(256) hashB[16], hash[16];
-	sph_blake256_context ctx_blake;
+  uint32_t _ALIGN(64) hash[8];
 
-	sph_blake256_set_rounds(14);
+  LYRA2z((void*)hash, 32, (void*)input, len, (void*)input, len, 2, 330, 256);
 
-	sph_blake256_init(&ctx_blake);
-	sph_blake256(&ctx_blake, input, len);
-	sph_blake256_close(&ctx_blake, hashB);
-
-	LYRA2z330(hash, 32, hashB, 32, hashB, 32, 8, 8, 8);
-
-	memcpy(output, hash, 32);
+  memcpy(output, hash, 32);
 }
-
