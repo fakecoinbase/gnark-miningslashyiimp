@@ -3,84 +3,37 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <sha3/sph_skein.h>
-#include <sha3/sph_jh.h>
-#include <sha3/sph_cubehash.h>
-#include <sha3/sph_fugue.h>
-#include <sha3/sph_echo.h>
-#include "gost.h"
+#include "Lyra2-z330.h"
 
-#include "common.h"
-#include "lyra2z330.h"
-#include "Lyra2.h"
+#include <sha3/sph_blake.h>
 
-__thread uint64_t* lyra2z330_wholeMatrix;
+#define _ALIGN(x) __attribute__ ((aligned(x)))
 
-void lyra2z330_hash(void *state, const void *input, uint32_t height)
+extern uint64_t lyra2z330_height;
+
+void lyra2z330_hash(const char* input, char* output, uint32_t len)
 {
-	uint32_t _ALIGN(256) hash[16];
+	uint32_t _ALIGN(256) hashB[16], hash[16];
+	sph_blake256_context ctx_blake;
+/*
+	uint64_t height = lyra2z330_height;
+	// initial implementation was pure lyra2 (no blake)
 
-   LYRA2Z330( lyra2z330_wholeMatrix, hash, 32, input, 80, input, 80, 2, 330, 256 );
+	if (height < 100) {
+		fprintf(stderr, "submit error, height=%u, len=%u\n", (uint32_t) height, len);
+		memset(hash, 0xff, 32);
+		return;
+	}
+	LYRA2z((void*)hash, 32, (void*)input, len, (void*)input, len, 2, height, 256);
+*/
+	sph_blake256_set_rounds(14);
 
-	memcpy(state, hash, 32);
+	sph_blake256_init(&ctx_blake);
+	sph_blake256(&ctx_blake, input, len);
+	sph_blake256_close(&ctx_blake, hashB);
+
+	LYRA2z330(hash, 32, hashB, 32, input, 32, 80, 80, 80, 2, 330, 256);
+
+	memcpy(output, hash, 32);
 }
 
-int scanhash_lyra2z330( struct work *work, uint32_t max_nonce,
-                        uint64_t *hashes_done, struct thr_info *mythr )
-{
-   uint32_t hash[8] __attribute__ ((aligned (128))); 
-   uint32_t edata[20] __attribute__ ((aligned (64)));
-   uint32_t *pdata = work->data;
-   uint32_t *ptarget = work->target;
-   const uint32_t first_nonce = pdata[19];
-   uint32_t nonce = first_nonce;
-
-
-
-	ptarget[7] = 0x0000ff;
-
-   casti_m128i( edata, 0 ) = mm128_bswap_32( casti_m128i( pdata, 0 ) );
-   casti_m128i( edata, 1 ) = mm128_bswap_32( casti_m128i( pdata, 1 ) );
-   casti_m128i( edata, 2 ) = mm128_bswap_32( casti_m128i( pdata, 2 ) );
-   casti_m128i( edata, 3 ) = mm128_bswap_32( casti_m128i( pdata, 3 ) );
-   casti_m128i( edata, 4 ) = mm128_bswap_32( casti_m128i( pdata, 4 ) );
-   
-   do
-   {
-      edata[19] = nonce;
-
-      LYRA2Z( lyra2z330_wholeMatrix, hash, 32, edata, 80, edata, 80, 2, 330, 256 );
-      
-//      lyra2z330_hash( hash, edata, work->height );
-      if ( valid_hash( hash, ptarget ) && !opt_benchmark )
-      {
-         be32enc( pdata + 19, nonce );
-         submit_solution( work, hash, mythr );
-      }
-      nonce++;
-   } while ( nonce < max_nonce && !work_restart[thr_id].restart );
-   pdata[19] = nonce;
-   *hashes_done = nonce - first_nonce;
-   return 0;
-}
-
-bool lyra2z330_thread_init()
-{
-   const int64_t ROW_LEN_INT64 = BLOCK_LEN_INT64 * 256; // nCols
-   const int64_t ROW_LEN_BYTES = ROW_LEN_INT64 * 8;
-
-   int i = (int64_t)ROW_LEN_BYTES * 330; // nRows;
-   lyra2z330_wholeMatrix = _mm_malloc( i, 64 );
-
-   return lyra2z330_wholeMatrix;
-}
-
-
-{
-  gate->optimizations = SSE42_OPT | AVX2_OPT;
-  gate->miner_thread_init = (void*)&lyra2z330_thread_init;
-  gate->scanhash   = (void*)&scanhash_lyra2z330;
-  gate->hash       = (void*)&lyra2z330_hash;
-  opt_target_factor = 256.0;
-  return true;
-};
