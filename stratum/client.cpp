@@ -635,7 +635,7 @@ void *client_thread(void *p)
 			b = client_send_error(client, 20, "Not supported");
 			client->submit_bad++;
 
-			stratumlog("unknown method %s %s\n", method, client->sock->ip);
+			// stratumlog("unknown method %s %s\n", method, client->sock->ip);
 		}
 
 		json_value_free(json);
