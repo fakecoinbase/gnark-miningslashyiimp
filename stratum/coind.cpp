@@ -115,7 +115,7 @@ bool coind_validate_address(YAAMP_COIND *coind)
 	sprintf(params, "[\"%s\"]", coind->wallet);
 
 	json_value *json;
-    bool getaddressinfo = ((strcmp(coind->symbol,"WAZ") == 0) || (strcmp(coind->symbol2, "WAZ") == 0) || (strcmp(coind->symbol,"DGB") == 0) || (strcmp(coind->symbol2, "DGB") == 0) || (strcmp(coind->symbol, "IBTC") == 0) || (strcmp(coind->symbol2, "IBTC") == 0) || (strcmp(coind->symbol, "DNA") == 0) || (strcmp(coind->symbol2, "DNA") == 0) || (strcmp(coind->symbol, "BUA") == 0) || (strcmp(coind->symbol2, "BUA") == 0) || (strcmp(coind->symbol, "AUR") == 0) || (strcmp(coind->symbol2, "AUR") == 0) || (strcmp(coind->symbol, "BFL") == 0) || (strcmp(coind->symbol2, "BFL") == 0) || (strcmp(coind->symbol, "PIGY") == 0) || (strcmp(coind->symbol2, "PIGY") == 0));	
+    bool getaddressinfo = ((strcmp(coind->symbol,"WAZ") == 0) || (strcmp(coind->symbol2, "WAZ") == 0) || (strcmp(coind->symbol,"DGB") == 0) || (strcmp(coind->symbol2, "DGB") == 0) || (strcmp(coind->symbol, "IBTC") == 0) || (strcmp(coind->symbol2, "IBTC") == 0) || (strcmp(coind->symbol, "DNA") == 0) || (strcmp(coind->symbol2, "DNA") == 0) ||(strcmp(coind->symbol, "BUA") == 0) || (strcmp(coind->symbol2, "BUA") == 0) || (strcmp(coind->symbol, "AUR") == 0) || (strcmp(coind->symbol2, "AUR") == 0) || (strcmp(coind->symbol, "BFL") == 0) || (strcmp(coind->symbol2, "BFL") == 0) || (strcmp(coind->symbol, "PIGY") == 0) || (strcmp(coind->symbol2, "PIGY") == 0));	
 	if(getaddressinfo)
 		json = rpc_call(&coind->rpc, "getaddressinfo", params);
 	else
