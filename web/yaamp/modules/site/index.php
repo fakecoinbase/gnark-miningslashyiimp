@@ -91,7 +91,7 @@ $payout_freq = (YAAMP_PAYMENTS_FREQ / 3600)." hours";
 <input id="Generate!" type="button" value="Start Mining" onclick="generate()">
 </td>
 </tr>
-<tr><td colspan="5"><p class="main-left-box" style="padding: 3px; background-color: #ffffee; font-family: monospace;" id="output">-a xevan -o stratum+tcp://mine.thepool.life:4533 -u . -p c=SAP</p>
+<tr><td colspan="5"><p class="main-left-box" style="padding: 3px; background-color: #ffffee; font-family: monospace;" id="output">-a xevan -o stratum+tcp://mine.miningcoins.ca:4533 -u . -p c=SAP</p>
 </td>
 </tr>
 </tbody></table>
@@ -212,7 +212,7 @@ function getLastUpdated(){
 	var result = '';
 
 	result += drop2.options[drop2.selectedIndex].dataset.algo + ' -o stratum+tcp://';
-	result += drop1.value + 'thepool.life:';
+	result += drop1.value + 'miningcoins.ca:';
 	result += drop2.options[drop2.selectedIndex].dataset.port + ' -u ';
 	result += document.getElementById('text-wallet').value;
 	if (rigName) result += '.' + rigName;
