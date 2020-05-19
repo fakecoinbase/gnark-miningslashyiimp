@@ -118,7 +118,7 @@ YAAMP_ALGO g_algos[] =
 	{"dedal", dedal_hash, 0x100, 0, 0},
 	{"deep", deep_hash, 1, 0, 0},
 	{"dmd-gr", groestl_hash, 0x100, 0, 0}, /* diamond (double groestl) */
-	{"equihash", equi_hash, 1, 0, 0},
+//	{"equihash", equi_hash, 1, 0, 0},
 	{"exosis", exosis_hash, 0x100, 0, 0},
 	{"fresh", fresh_hash, 0x100, 0, 0},
 	{"geek", geek_hash, 1, 0, 0},

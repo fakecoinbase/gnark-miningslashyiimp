@@ -27,7 +27,6 @@ SOURCES=lyra2re.c lyra2v2.c lyra2v3.c Lyra2.c lyra2z.c Lyra2-z.c lyra2zz.c lyra2
 	binarium_hash_v1/encryption/gost2015_kuznechik/SIMD_tables.c binarium_hash_v1/encryption/gost2015_kuznechik/shared/tables.c \
 	binarium_hash_v1/encryption/three_fish/libskein_skein.cc binarium_hash_v1/encryption/salsa20/salsa20.c \
 	beenode.c honeycomb/facet_one.c honeycomb/facet_two.c honeycomb/facet_three.c honeycomb/facet_four.c honeycomb/facet_five.c honeycomb/facet_six.c honeycomb/facets_helper.c \
-	equi.c
 
 OBJECTS=$(SOURCES:%.c=%.o) $(SOURCES:%.cpp=%.o) $(SOURCES:%.cc=%.o)
 OUTPUT=libalgos.a
