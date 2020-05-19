@@ -92,7 +92,7 @@ void digestInit(crypto_generichash_blake2b_state *S, const int n, const int k) {
   memcpy(personalization, "ZcashPoW", 9);
   memcpy(personalization + 8,  &le_N, 4);
   memcpy(personalization + 12, &le_K, 4);
-  crypto_generichash_blake2b_init_salt_personal(S,
+ // crypto_generichash_blake2b_init_salt_personal(S,
     NULL, 0, (512 / n) * n / 8, NULL, personalization);
 }
 
@@ -152,8 +152,8 @@ static void generateHash(crypto_generichash_blake2b_state *S, const uint32_t g, 
   const uint32_t le_g = htole32(g);
   crypto_generichash_blake2b_state digest = *S; /* copy */
 
-  crypto_generichash_blake2b_update(&digest, (uint8_t *)&le_g, sizeof(le_g));
-  crypto_generichash_blake2b_final(&digest, hash, hashLen);
+ // crypto_generichash_blake2b_update(&digest, (uint8_t *)&le_g, sizeof(le_g));
+ // crypto_generichash_blake2b_final(&digest, hash, hashLen);
 }
 
 // hdr -> header including nonce (140 bytes)
@@ -172,7 +172,7 @@ static void generateHash(crypto_generichash_blake2b_state *S, const uint32_t g, 
 
   crypto_generichash_blake2b_state state;
   digestInit(&state, n, k);
-  crypto_generichash_blake2b_update(&state, hdr, 140);
+ // crypto_generichash_blake2b_update(&state, hdr, 140);
 
   expandArray(soln, equihashSolutionSize, (char *)&indices, sizeof(indices), collisionBitLength + 1, 1);
   
